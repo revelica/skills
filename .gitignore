@@ -134,6 +134,10 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
+# Claude Code plugin files — must be committed for plugin distribution
+!.claude-plugin/
+!.mcp.json
+
 # Environments
 .env
 .envrc
