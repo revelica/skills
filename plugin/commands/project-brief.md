@@ -3,15 +3,15 @@ description: Generate a strategic brief for a Revelica project by synthesizing a
 argument-hint: [project-id]
 ---
 
-Generate a project brief for the Revelica project identified by $ARGUMENTS.
+Generate a project brief for a Revelica project.
 
 ## Steps
 
 ### 1. Resolve the project
 
-If $ARGUMENTS contains a project ID (UUID), use it directly.
+If a project ID (UUID) was provided as an argument (`$ARGUMENTS`), use it directly.
 
-If no project ID is provided, call `list_artifacts` with `limit=50` to discover available projects. Extract the unique `project_id` values from the results, then ask the user which project they want a brief for.
+Otherwise, call `list_artifacts` with `limit=50` to discover available projects. Extract the unique `project_id` values from the results, then ask the user which project they want a brief for.
 
 ### 2. Fetch the project overview
 
