@@ -1,7 +1,5 @@
 {
   "name": "revelica",
   "description": "Revelica MCP tools and skills for product intelligence",
-  "version": "1.0.0",
-  "mcpServers": "../.mcp.json",
-  "commands": ["../skills/"]
+  "version": "1.0.0"
 }
