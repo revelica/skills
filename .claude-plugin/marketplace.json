@@ -1,0 +1,17 @@
+{
+  "name": "revelica",
+  "owner": {
+    "name": "Revelica"
+  },
+  "plugins": [
+    {
+      "name": "revelica",
+      "source": {
+        "source": "github",
+        "repo": "revelica/skills"
+      },
+      "description": "Revelica MCP tools and skills for product intelligence",
+      "version": "1.0.0"
+    }
+  ]
+}
