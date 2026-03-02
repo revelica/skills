@@ -1,6 +1,6 @@
 ---
-name: project-brief
 description: Generate a strategic brief for a Revelica project by synthesizing all available research artifacts
+argument-hint: [project-id]
 ---
 
 Generate a project brief for the Revelica project identified by $ARGUMENTS.
