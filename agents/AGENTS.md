@@ -1,19 +1,57 @@
+# Revelica Agent Skills
+
+This file is a fallback bundle for AI tools that don't support a plugin marketplace.
+It packages all Revelica skills as inline instructions you can paste into your agent's
+context or system prompt.
+
+For tools with native plugin support, install the Revelica plugin instead:
+- **Claude Code**: `/plugin marketplace add revelica/skills && /plugin install revelica@revelica`
+- **Cursor**: Install via `.cursor-plugin/plugin.json`
+- **Gemini CLI**: Install via `gemini-extension.json`
+
 ---
-description: Generate a strategic brief for a Revelica project by synthesizing all available research artifacts
-argument-hint: [project-id]
+
+## MCP Server
+
+All skills below require the Revelica MCP server. Configure it in your tool:
+
+```
+Type: SSE
+URL:  https://scryfast-development.fly.dev/sse
+```
+
+Authentication: OAuth 2.1 (browser flow on first use).
+
 ---
+
+## Available Tools
+
+| Tool | Description |
+|------|-------------|
+| `list_artifacts` | List artifacts. Filters: `artifact_type`, `project_id`, `limit`. |
+| `get_artifact` | Fetch full `json_content` for a single artifact by ID. |
+| `get_project_artifacts` | Fetch project metadata + all artifacts grouped by type. |
+| `list_playbook_runs` | List recent playbook runs with status and timestamps. |
+
+---
+
+## Skill: project-brief
+
+**When to use:** Generate a strategic brief for a Revelica project by synthesizing all available research artifacts.
+
+**Argument:** Optional project ID (UUID). If not provided, discover projects automatically.
+
+### Instructions
 
 Generate a project brief for a Revelica project.
 
-## Steps
+#### 1. Resolve the project
 
-### 1. Resolve the project
-
-If a project ID (UUID) was provided as an argument (`$ARGUMENTS`), use it directly.
+If a project ID (UUID) was provided, use it directly.
 
 Otherwise, call `list_artifacts` with `limit=50` to discover available projects. Extract the unique `project_id` values from the results, then ask the user which project they want a brief for.
 
-### 2. Fetch the project overview
+#### 2. Fetch the project overview
 
 Call `get_project_artifacts` with the project ID. This returns:
 - `project` — name, goal, and outcome
@@ -22,7 +60,7 @@ Call `get_project_artifacts` with the project ID. This returns:
 
 If `artifacts_count` is 0, report that no research has been run for this project yet and stop.
 
-### 3. Fetch artifact content
+#### 3. Fetch artifact content
 
 For each artifact type in `artifacts_by_type`, take the most recent artifact (first in the list) and call `get_artifact` with its ID to retrieve the full `json_content`.
 
@@ -34,7 +72,7 @@ Limit to **5 `get_artifact` calls total**. If there are more than 5 types, prior
 
 Make the `get_artifact` calls in parallel where possible.
 
-### 4. Synthesize the brief
+#### 4. Synthesize the brief
 
 Produce the brief in this format:
 

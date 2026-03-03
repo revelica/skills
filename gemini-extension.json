@@ -1,0 +1,12 @@
+{
+  "name": "revelica",
+  "version": "1.0.0",
+  "description": "Revelica MCP tools and skills for product intelligence",
+  "mcpServers": {
+    "revelica": {
+      "type": "sse",
+      "url": "https://scryfast-development.fly.dev/sse"
+    }
+  },
+  "skillsDirectory": "./skills"
+}

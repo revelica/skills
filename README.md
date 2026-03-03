@@ -1,25 +1,67 @@
 # Revelica Skills
 
-Official Claude Code plugin for Revelica — provides MCP-connected slash commands for
-product intelligence directly in your terminal.
+Official Revelica plugin for AI coding tools — provides MCP-connected skills for
+product intelligence. Follows the [Agent Skills open standard](https://agentskills.io/specification),
+compatible with Claude Code, Cursor, Gemini CLI, OpenAI Codex, and more.
 
 ## Repository Structure
 
 ```
 revelica/skills
 ├── .claude-plugin/
-│   └── marketplace.json       # Marketplace catalog (points to ./plugin)
+│   └── marketplace.json         # Claude Code marketplace catalog
+├── .cursor-plugin/
+│   └── plugin.json              # Cursor plugin manifest
+├── agents/
+│   └── AGENTS.md                # Fallback bundle for tools without a plugin system
+├── skills/                      # Skill definitions (Agent Skills open standard)
+│   └── project-brief/
+│       └── SKILL.md             # /revelica:project-brief
+├── .mcp.json                    # Root MCP config (Cursor, Codex, cross-platform)
+├── gemini-extension.json        # Gemini CLI extension manifest
 └── plugin/
     ├── .claude-plugin/
-    │   └── plugin.json        # Plugin manifest (name, version, mcpServers ref)
-    ├── .mcp.json              # MCP server connection config
-    └── commands/
-        └── project-brief.md  # /revelica:project-brief skill
+    │   └── plugin.json          # Claude Code plugin manifest
+    └── .mcp.json                # MCP config for Claude Code plugin
+```
+
+## Installation by Platform
+
+### Claude Code
+
+```
+/plugin marketplace add revelica/skills
+/plugin install revelica@revelica
+```
+
+Skills are invoked as `/revelica:<skill-name>`. The MCP server is registered automatically.
+
+### Cursor
+
+Install via the `.cursor-plugin/plugin.json` manifest. Cursor will discover skills from
+the `skills/` directory and connect to the MCP server via `.mcp.json` automatically.
+
+### Gemini CLI
+
+```
+gemini extensions install revelica/skills
+```
+
+The `gemini-extension.json` manifest registers both skills and the MCP server.
+
+### Other tools (Codex, raw API, etc.)
+
+See `agents/AGENTS.md` for a self-contained skill bundle you can paste into your
+agent's context. Configure the MCP server separately:
+
+```
+Type: SSE
+URL:  https://scryfast-development.fly.dev/sse
 ```
 
 ## How It Works
 
-### Install flow (one-time per user)
+### Claude Code install flow (one-time per user)
 
 ```
 User: /plugin marketplace add revelica/skills
@@ -29,11 +71,9 @@ User: /plugin marketplace add revelica/skills
 
 User: /plugin install revelica@revelica
   └─ Claude Code reads plugin/.claude-plugin/plugin.json
-        ├─ registers /revelica:<command> slash commands (from commands/)
+        ├─ discovers skills/ from ../skills → registers /revelica:<skill> commands
         └─ reads mcpServers: "./.mcp.json"
-              └─ registers MCP server:
-                 type: sse
-                 url: https://api.revelica.com/sse
+              └─ registers MCP server (SSE, OAuth 2.1)
 ```
 
 ### Runtime flow (per skill invocation)
@@ -44,7 +84,7 @@ User: /revelica:project-brief [project-id]
   ├─ Claude Code: GET /sse → 401 + OAuth metadata
   │     └─ OAuth flow: browser → Supabase → /auth/consent → JWT
   │
-  └─ Claude executes commands/project-brief.md instructions:
+  └─ Claude executes skills/project-brief/SKILL.md instructions:
         │
         ├─ MCP tool: get_project_artifacts(project_id)
         │     └─ POST /messages/ → MCP server → Supabase (RLS enforced)
@@ -56,9 +96,60 @@ User: /revelica:project-brief [project-id]
 
 ### Transport
 
-Claude Code's plugin system only accepts `stdio`, `sse`, and `sse-ide` transport types.
-The Revelica backend exposes both SSE (for the plugin) and streamable-HTTP (for other clients)
-from the same MCP server instance.
+The backend exposes two transports from the same MCP server:
+- `GET /sse` + `POST /messages/` — SSE (Claude Code plugin system)
+- `POST /mcp` — Streamable HTTP (Cursor, MCP Inspector, direct clients)
+
+## Skill Format
+
+Skills follow the [Agent Skills open standard](https://agentskills.io/specification).
+Each skill is a folder under `skills/` containing a `SKILL.md` with YAML frontmatter:
+
+```markdown
+---
+name: skill-name
+description: What this skill does and when to use it.
+argument-hint: [optional-arg]   # Claude Code extension
+---
+
+Instructions for Claude to follow...
+```
+
+## Adding a New Skill
+
+1. Create a folder under `skills/`:
+   ```bash
+   mkdir skills/my-skill
+   touch skills/my-skill/SKILL.md
+   ```
+
+2. Write `SKILL.md` with frontmatter and step-by-step instructions:
+   ```markdown
+   ---
+   name: my-skill
+   description: What this skill does and when to use it.
+   argument-hint: [optional-arg]
+   ---
+
+   Instructions for Claude to follow.
+
+   If an argument was provided in `$ARGUMENTS`, use it directly.
+   Otherwise, call list_artifacts to discover available data.
+   ```
+
+   Invoked in Claude Code as `/revelica:my-skill`. `$ARGUMENTS` is replaced with whatever
+   the user types after the command — handle both empty and non-empty cases explicitly.
+
+3. Add the skill to `agents/AGENTS.md` for cross-platform fallback support.
+
+4. Commit and push. Users get the update by running:
+   ```
+   # Claude Code
+   /plugin marketplace update revelica
+   /plugin update revelica@revelica
+   ```
+
+No backend changes are needed unless the skill requires a new MCP tool.
 
 ## Plugin File Formats
 
@@ -69,11 +160,13 @@ from the same MCP server instance.
   "name": "revelica",
   "description": "Revelica MCP tools and skills for product intelligence",
   "version": "1.0.0",
+  "skills": "../skills",
   "mcpServers": "./.mcp.json"
 }
 ```
 
-`mcpServers` must be explicitly declared. Claude Code does not auto-discover `.mcp.json`.
+`skills` path is relative to the plugin root (`plugin/`). `mcpServers` must be explicitly
+declared — Claude Code does not auto-discover `.mcp.json`.
 
 ### `plugin/.mcp.json`
 
@@ -81,13 +174,26 @@ from the same MCP server instance.
 {
   "revelica": {
     "type": "sse",
-    "url": "https://api.revelica.com/sse"
+    "url": "https://scryfast-development.fly.dev/sse"
   }
 }
 ```
 
-The plugin `.mcp.json` format has **no `mcpServers` wrapper** — the server name is the
-top-level key. This is different from the project-level `.mcp.json` format used in codebases.
+The plugin `.mcp.json` has **no `mcpServers` wrapper** — the server name is the top-level key.
+This differs from the root-level `.mcp.json` (which uses the standard `mcpServers` wrapper).
+
+### `.mcp.json` (root — Cursor / cross-platform)
+
+```json
+{
+  "mcpServers": {
+    "revelica": {
+      "type": "sse",
+      "url": "https://scryfast-development.fly.dev/sse"
+    }
+  }
+}
+```
 
 ### `.claude-plugin/marketplace.json`
 
@@ -106,41 +212,9 @@ top-level key. This is different from the project-level `.mcp.json` format used 
 }
 ```
 
-`source: "./plugin"` uses a relative path within this repo. This avoids a Claude Code
-deduplication issue where pointing both the marketplace and plugin source to the same GitHub
-repo results in an empty plugin install cache.
-
-## Adding a New Skill
-
-1. Create a Markdown file in `plugin/commands/`:
-   ```bash
-   touch plugin/commands/my-skill.md
-   ```
-
-2. Write it with frontmatter and step-by-step instructions:
-   ```markdown
-   ---
-   description: What this skill does and when to use it.
-   argument-hint: [optional-arg]
-   ---
-
-   Instructions for Claude to follow.
-
-   If an argument was provided, use it directly.
-   Otherwise, call list_artifacts to discover available data.
-   ```
-
-   The file is invoked as `/revelica:my-skill`. `$ARGUMENTS` is replaced with whatever
-   the user types after the command — it is an empty string when no argument is provided,
-   so write instructions that handle both cases explicitly.
-
-3. Commit and push. Users get the update by running:
-   ```
-   /plugin marketplace update revelica
-   /plugin update revelica@revelica
-   ```
-
-No changes to the backend are needed unless the skill requires a new MCP tool.
+`source: "./plugin"` uses a relative path. This avoids a Claude Code deduplication issue
+where pointing both the marketplace and plugin source to the same GitHub repo results in
+an empty plugin install cache.
 
 ## Available MCP Tools
 
@@ -155,14 +229,3 @@ These tools are provided by the Revelica MCP server and callable from any skill:
 
 All tools require OAuth authentication and enforce Supabase RLS — users only see their
 own workspace's data.
-
-## User Installation
-
-See [how-to-install.md](https://github.com/revelica/scryfast/blob/main/skills/how-to-install.md)
-for the end-user guide.
-
-Quick version:
-```
-/plugin marketplace add revelica/skills
-/plugin install revelica@revelica
-```
