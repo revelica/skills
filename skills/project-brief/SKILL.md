@@ -1,10 +1,20 @@
 ---
 name: project-brief
 description: Generate a strategic brief for a Revelica project by synthesizing all available research artifacts
-argument-hint: [project-id]
+version: 1.0.0
 ---
 
-Generate a project brief for a Revelica project.
+## When This Skill Applies
+
+Use this skill when the user asks to:
+- Generate or create a project brief, summary, or overview for a Revelica project
+- Summarize research findings or artifacts for a project
+- Get a strategic overview of what's been researched for a product
+- Understand the current state of research for a Revelica project
+
+## Overview
+
+Generate a project brief for a Revelica project by fetching and synthesizing all available research artifacts.
 
 ## Steps
 
