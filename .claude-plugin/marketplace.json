@@ -6,7 +6,7 @@
   "plugins": [
     {
       "name": "revelica",
-      "source": ".",
+      "source": "./",
       "description": "Revelica MCP tools and skills for product intelligence",
       "version": "1.0.0"
     }
