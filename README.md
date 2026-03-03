@@ -9,7 +9,8 @@ compatible with Claude Code, Cursor, Gemini CLI, OpenAI Codex, and more.
 ```
 revelica/skills
 ├── .claude-plugin/
-│   └── marketplace.json         # Claude Code marketplace catalog
+│   ├── marketplace.json         # Claude Code marketplace catalog
+│   └── plugin.json              # Claude Code plugin manifest
 ├── .cursor-plugin/
 │   └── plugin.json              # Cursor plugin manifest
 ├── agents/
@@ -17,12 +18,8 @@ revelica/skills
 ├── skills/                      # Skill definitions (Agent Skills open standard)
 │   └── project-brief/
 │       └── SKILL.md             # /revelica:project-brief
-├── .mcp.json                    # Root MCP config (Cursor, Codex, cross-platform)
-├── gemini-extension.json        # Gemini CLI extension manifest
-└── plugin/
-    ├── .claude-plugin/
-    │   └── plugin.json          # Claude Code plugin manifest
-    └── .mcp.json                # MCP config for Claude Code plugin
+├── .mcp.json                    # MCP config (all platforms)
+└── gemini-extension.json        # Gemini CLI extension manifest
 ```
 
 ## Installation by Platform
@@ -67,11 +64,11 @@ URL:  https://scryfast-development.fly.dev/sse
 User: /plugin marketplace add revelica/skills
   └─ Claude Code clones this repo
         └─ reads .claude-plugin/marketplace.json
-              └─ source: "./plugin" → registers the plugin/ subdirectory
+              └─ source: "." → repo root is the plugin root
 
 User: /plugin install revelica@revelica
-  └─ Claude Code reads plugin/.claude-plugin/plugin.json
-        ├─ discovers skills/ from ../skills → registers /revelica:<skill> commands
+  └─ Claude Code reads .claude-plugin/plugin.json
+        ├─ discovers skills/ → registers /revelica:<skill> commands
         └─ reads mcpServers: "./.mcp.json"
               └─ registers MCP server (SSE, OAuth 2.1)
 ```
@@ -153,36 +150,21 @@ No backend changes are needed unless the skill requires a new MCP tool.
 
 ## Plugin File Formats
 
-### `plugin/.claude-plugin/plugin.json`
+### `.claude-plugin/plugin.json`
 
 ```json
 {
   "name": "revelica",
   "description": "Revelica MCP tools and skills for product intelligence",
   "version": "1.0.0",
-  "skills": "../skills",
+  "skills": "./skills",
   "mcpServers": "./.mcp.json"
 }
 ```
 
-`skills` path is relative to the plugin root (`plugin/`). `mcpServers` must be explicitly
-declared — Claude Code does not auto-discover `.mcp.json`.
+`mcpServers` must be explicitly declared — Claude Code does not auto-discover `.mcp.json`.
 
-### `plugin/.mcp.json`
-
-```json
-{
-  "revelica": {
-    "type": "sse",
-    "url": "https://scryfast-development.fly.dev/sse"
-  }
-}
-```
-
-The plugin `.mcp.json` has **no `mcpServers` wrapper** — the server name is the top-level key.
-This differs from the root-level `.mcp.json` (which uses the standard `mcpServers` wrapper).
-
-### `.mcp.json` (root — Cursor / cross-platform)
+### `.mcp.json`
 
 ```json
 {
@@ -204,7 +186,7 @@ This differs from the root-level `.mcp.json` (which uses the standard `mcpServer
   "plugins": [
     {
       "name": "revelica",
-      "source": "./plugin",
+      "source": ".",
       "description": "Revelica MCP tools and skills for product intelligence",
       "version": "1.0.0"
     }
@@ -212,9 +194,7 @@ This differs from the root-level `.mcp.json` (which uses the standard `mcpServer
 }
 ```
 
-`source: "./plugin"` uses a relative path. This avoids a Claude Code deduplication issue
-where pointing both the marketplace and plugin source to the same GitHub repo results in
-an empty plugin install cache.
+`source: "."` points to the repo root, which is the plugin root.
 
 ## Available MCP Tools
 
