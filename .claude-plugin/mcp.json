@@ -1,0 +1,6 @@
+{
+  "revelica": {
+    "type": "sse",
+    "url": "https://scryfast-development.fly.dev/sse"
+  }
+}
