@@ -16,8 +16,8 @@ For tools with native plugin support, install the Revelica plugin instead:
 All skills below require the Revelica MCP server. Configure it in your tool:
 
 ```
-Type: SSE
-URL:  https://scryfast-development.fly.dev/sse
+Type: streamable-http
+URL:  https://scryfast-development.fly.dev/mcp
 ```
 
 Authentication: OAuth 2.1 (browser flow on first use).

@@ -54,8 +54,8 @@ See `agents/AGENTS.md` for a self-contained skill bundle you can paste into your
 agent's context. Configure the MCP server separately:
 
 ```
-Type: SSE
-URL:  https://scryfast-development.fly.dev/sse
+Type: streamable-http
+URL:  https://scryfast-development.fly.dev/mcp
 ```
 
 ## How It Works
@@ -72,7 +72,7 @@ User: /plugin install revelica@revelica
   └─ Claude Code reads .claude-plugin/plugin.json
         ├─ auto-discovers skills/ → loads SKILL.md files into Claude's context
         └─ reads mcpServers: "./.claude-plugin/mcp.json"
-              └─ registers MCP server (SSE, OAuth 2.1)
+              └─ registers MCP server (streamable-http, OAuth 2.1)
 ```
 
 ### Runtime flow (per skill invocation)
@@ -82,13 +82,13 @@ User: "can you generate a project brief for my Revelica project?"
   │
   ├─ Claude recognises intent → loads skills/project-brief/SKILL.md
   │
-  ├─ Claude Code: GET /sse → 401 + OAuth metadata
+  ├─ Claude Code: POST /mcp → 401 + OAuth metadata
   │     └─ OAuth flow: browser → Supabase → /auth/consent → JWT
   │
   └─ Claude follows SKILL.md instructions:
         │
         ├─ MCP tool: get_project_artifacts(project_id)
-        │     └─ POST /messages/ → MCP server → Supabase (RLS enforced)
+        │     └─ POST /mcp → MCP server → Supabase (RLS enforced)
         │
         ├─ MCP tools (parallel): get_artifact(id) × up to 5
         │
@@ -97,9 +97,8 @@ User: "can you generate a project brief for my Revelica project?"
 
 ### Transport
 
-The backend exposes two transports from the same MCP server:
-- `GET /sse` + `POST /messages/` — SSE (Claude Code plugin system)
-- `POST /mcp` — Streamable HTTP (Cursor, MCP Inspector, direct clients)
+The backend exposes one transport:
+- `POST /mcp` — Streamable HTTP (Claude Code, Cursor, MCP Inspector, all MCP clients)
 
 ## Skill Format
 
@@ -188,8 +187,8 @@ Skills are auto-discovered from the `skills/` directory — no explicit listing 
 ```json
 {
   "revelica": {
-    "type": "sse",
-    "url": "https://scryfast-development.fly.dev/sse"
+    "type": "streamable-http",
+    "url": "https://scryfast-development.fly.dev/mcp"
   }
 }
 ```
@@ -203,8 +202,8 @@ required when referenced from `plugin.json`.
 {
   "mcpServers": {
     "revelica": {
-      "type": "sse",
-      "url": "https://scryfast-development.fly.dev/sse"
+      "type": "streamable-http",
+      "url": "https://scryfast-development.fly.dev/mcp"
     }
   }
 }
