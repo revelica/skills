@@ -16,8 +16,12 @@ For tools with native plugin support, install the Revelica plugin instead:
 All skills below require the Revelica MCP server. Configure it in your tool:
 
 ```
-Type: streamable-http
 URL:  https://scryfast-development.fly.dev/mcp
+
+Transport type varies by client:
+  Claude Code:  "type": "http"
+  Cursor:       "type": "streamable-http"
+  Gemini CLI:   "url" only (auto-detects)
 ```
 
 Authentication: OAuth 2.1 (browser flow on first use).

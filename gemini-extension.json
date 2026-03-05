@@ -4,7 +4,6 @@
   "description": "Revelica MCP tools and skills for product intelligence",
   "mcpServers": {
     "revelica": {
-      "type": "streamable-http",
       "url": "https://scryfast-development.fly.dev/mcp"
     }
   },

@@ -54,8 +54,13 @@ See `agents/AGENTS.md` for a self-contained skill bundle you can paste into your
 agent's context. Configure the MCP server separately:
 
 ```
-Type: streamable-http
 URL:  https://scryfast-development.fly.dev/mcp
+Auth: OAuth 2.1 (browser flow on first use)
+
+Transport type varies by client:
+  Claude Code:  "type": "http"
+  Cursor:       "type": "streamable-http"
+  Gemini CLI:   "url" only (auto-detects)
 ```
 
 ## How It Works
@@ -72,7 +77,7 @@ User: /plugin install revelica@revelica
   └─ Claude Code reads .claude-plugin/plugin.json
         ├─ auto-discovers skills/ → loads SKILL.md files into Claude's context
         └─ reads mcpServers: "./.claude-plugin/mcp.json"
-              └─ registers MCP server (streamable-http, OAuth 2.1)
+              └─ registers MCP server (type: "http", OAuth 2.1)
 ```
 
 ### Runtime flow (per skill invocation)
@@ -98,7 +103,7 @@ User: "can you generate a project brief for my Revelica project?"
 ### Transport
 
 The backend exposes one transport:
-- `POST /mcp` — Streamable HTTP (Claude Code, Cursor, MCP Inspector, all MCP clients)
+- `POST /mcp` — Streamable HTTP (all MCP clients; transport type key varies by client, see above)
 
 ## Skill Format
 
@@ -174,7 +179,7 @@ No backend changes are needed unless the skill requires a new MCP tool.
 {
   "name": "revelica",
   "description": "Revelica MCP tools and skills for product intelligence",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "mcpServers": "./.claude-plugin/mcp.json"
 }
 ```
@@ -187,14 +192,15 @@ Skills are auto-discovered from the `skills/` directory — no explicit listing 
 ```json
 {
   "revelica": {
-    "type": "streamable-http",
+    "type": "http",
     "url": "https://scryfast-development.fly.dev/mcp"
   }
 }
 ```
 
 Server name is the top-level key — **no `mcpServers` wrapper**. This is the format
-required when referenced from `plugin.json`.
+required when referenced from `plugin.json`. Claude Code uses `"type": "http"` for
+streamable HTTP transport.
 
 ### `.mcp.json` (Cursor / cross-platform format)
 
@@ -209,7 +215,8 @@ required when referenced from `plugin.json`.
 }
 ```
 
-Uses the standard `mcpServers` wrapper expected by Cursor and other tools.
+Uses the standard `mcpServers` wrapper expected by Cursor. Cursor uses
+`"type": "streamable-http"` (different from Claude Code's `"type": "http"`).
 
 ### `.claude-plugin/marketplace.json`
 
@@ -222,7 +229,7 @@ Uses the standard `mcpServers` wrapper expected by Cursor and other tools.
       "name": "revelica",
       "source": "./",
       "description": "Revelica MCP tools and skills for product intelligence",
-      "version": "1.0.0"
+      "version": "1.2.0"
     }
   ]
 }
