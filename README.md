@@ -257,3 +257,6 @@ own workspace's data.
 Revelica is an AI-native product discovery platform. It helps product managers create customer insights, competitive analysis, and validated specs that feed into their AI development workflow.
 
 🔗 https://revelica.com
+
+🔗 https://app.revelica.com/insights
+
