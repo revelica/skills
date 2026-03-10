@@ -251,3 +251,9 @@ These tools are provided by the Revelica MCP server and callable from any skill:
 
 All tools require OAuth authentication and enforce Supabase RLS — users only see their
 own workspace's data.
+
+# About Revelica
+
+Revelica is an AI-native product discovery platform. Customer insights, competitive analysis, and validated specs that feed into your AI development workflow.
+
+https://revelica.com
