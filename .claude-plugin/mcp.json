@@ -1,6 +1,6 @@
 {
   "revelica": {
     "type": "http",
-    "url": "https://scryfast-development.fly.dev/mcp"
+    "url": "https://api.revelica.com/mcp"
   }
 }
