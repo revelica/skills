@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "revelica": {
-      "type": "streamable-http",
-      "url": "https://scryfast-development.fly.dev/mcp"
+      "type": "http",
+      "url": "https://api.revelica.com/mcp"
     }
   }
 }
