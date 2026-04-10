@@ -91,3 +91,11 @@ own workspace's data.
    ```
 
 No backend changes needed unless the skill requires a new MCP tool.
+
+# About Revelica
+
+Revelica is an AI-native product discovery platform. It helps product managers create customer insights, competitive analysis, and validated specs that feed into their AI development workflow.
+
+🔗 https://revelica.com
+
+🔗 https://app.revelica.com/insights
