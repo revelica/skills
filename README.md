@@ -15,8 +15,10 @@ revelica/skills
 ├── .cursor-plugin/
 │   └── plugin.json              # Cursor plugin manifest
 ├── skills/                      # Skill definitions (Agent Skills open standard)
-│   └── product-context/
-│       └── SKILL.md             # Workspace knowledge access for AI agents
+│   ├── product-context/         # Required workspace orientation
+│   ├── product-for-coding-agents/  # Product layer for coding agents
+│   └── write-spec/              # Author a feature spec attached to an idea
+├── server.json                  # MCP registry manifest (registry.modelcontextprotocol.io)
 ├── .mcp.json                    # MCP config for Cursor/Gemini
 └── gemini-extension.json        # Gemini CLI extension manifest
 ```
@@ -52,8 +54,9 @@ These tools are provided by the Revelica MCP server and callable from any skill:
 
 | Tool | Description |
 |------|-------------|
-| `lookup` | Search workspace knowledge base — artifacts, entities, schemas. Filter by `artifact_type`, control detail with `depth`. |
-| `save` | Create new artifacts or entities. Content validated against registered schemas. |
+| `query` | Search the workspace knowledge base — artifacts, entities, schemas. Filter by `artifact_type`, control detail with `depth`. |
+| `read` | Read a single artifact or entity in full by id. |
+| `create` | Create new artifacts or entities. Content validated against registered schemas. |
 | `update` | Apply partial field-level updates via dot-path notation. |
 | `load_skill` | Load a skill's instructions and prefetched workspace data. |
 
@@ -64,7 +67,9 @@ own workspace's data.
 
 | Skill | Description |
 |-------|-------------|
-| `product-context` | Look up ideas, evidence, segments, and competitive data from the workspace. Save findings as you go so the next session picks up where you left off. |
+| `product-context` | Required orientation for any workspace session — access patterns, the skill catalog, and sync-as-you-work expectations so you don't re-derive what's already saved. |
+| `product-for-coding-agents` | The product layer for a coding agent: read the idea/spec/UX behind the code, write high-level results (PRDs, PRs, tested assumptions, ideas, sources) back. |
+| `write-spec` | Author a feature spec attached to an idea, following the Revelica spec template — incremental section-by-section writes that fit coding-agent tool-call budgets. |
 
 ## Adding a New Skill
 
@@ -79,7 +84,7 @@ own workspace's data.
    ---
    name: my-skill
    description: What this skill does and when to use it.
-   compatibility: Requires Revelica MCP server (lookup, save, update tools)
+   compatibility: Requires Revelica MCP server (query, read, create, update tools)
    ---
 
    Instructions for the agent...

@@ -77,7 +77,7 @@ Use these instead of full-field replacement whenever possible:
 | `{"field": null}` | Remove |
 | `{"text.append": ["line 1", "line 2"]}` | Append lines to a long-text field (array joined with `\n`) |
 
-### Array form on save for long text
+### Array form on create for long text
 
 For long text content (like `document.text`), prefer the array form:
 
@@ -95,7 +95,7 @@ Call `list_skills()` to see all skills available to MCP clients in your workspac
 
 - **write-spec** — commit a feature design to writing as a document attached to an idea (use when an idea moves from backlog → discovery, or before implementation starts)
 
-If more skills become available through `list_skills()` (interview-snapshot, story-map, research-*, etc.), load whichever one matches your task with `load_skill("<name>")` before improvising. If no skill matches, use the lookup/save/update pattern directly — it covers everything.
+If more skills become available through `list_skills()` (interview-snapshot, story-map, research-*, etc.), load whichever one matches your task with `load_skill("<name>")` before improvising. If no skill matches, use the `query`/`read`/`create`/`update` tools directly — they cover everything.
 
 ## 1. Before asking the user, check the workspace
 
@@ -232,9 +232,11 @@ create(artifact_type="evidence-source", name="<descriptive label>", content={
 
 **`evidence-finding`** — the actionable insight you extracted:
 
+> **Use the exact `id` from the `create(evidence-source, …)` response above** as `evidence_source_id`. Copy it verbatim — a UUID is exactly 36 characters in the pattern `8-4-4-4-12`. Do not retype from memory, do not shorten.
+
 ```
 create(artifact_type="evidence-finding", name="<short label>", content={
-  "evidence_source_id": "<source_id>",
+  "evidence_source_id": "<paste the id returned by the create(evidence-source) call above>",
   "title": "<one-line active observation>",
   "category": "<same as source>",
   "impact": "high|medium|low",

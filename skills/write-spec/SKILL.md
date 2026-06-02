@@ -17,7 +17,7 @@ Write a feature spec for an idea. The spec is a markdown document with a fixed s
 
 **The format's contract:** every entry in the **Decisions log** MUST include a one-line `**Why:**` rationale. Future readers (you in two months, another agent picking up the work) read the Decisions section first to know what NOT to re-litigate. Without the Why lines, decisions are unmotivated assertions and the spec loses its most valuable property.
 
-**Per-call size budget:** keep each save/update call to ~1-3KB of body content. Don't try to write the whole spec in one save. The skill walks you through this section by section so each call stays small and a partial failure only loses the in-flight section.
+**Per-call size budget:** keep each `create`/`update` call to ~1-3KB of body content. Don't try to write the whole spec in one call. The skill walks you through this section by section so each call stays small and a partial failure only loses the in-flight section.
 
 ## Step 1: Gather context
 
@@ -269,9 +269,9 @@ Summarize for the user, conversationally:
 
 This skill assumes two tool capabilities that may not be live in every environment:
 
-1. **Array form for string content fields.** `content={text: ["line 1", "line 2"]}`. If a save call returns a validation error about list-vs-string, fall back to passing `text` as a single string with `\n` between lines. The output is identical; only the input shape changes. Less friendly to less capable models, but functionally equivalent.
+1. **Array form for string content fields.** `content={text: ["line 1", "line 2"]}`. If a `create` call returns a validation error about list-vs-string, fall back to passing `text` as a single string with `\n` between lines. The output is identical; only the input shape changes. Less friendly to less capable models, but functionally equivalent.
 
-2. **`text.append` operator on update.** `updates={"text.append": [...]}`. If an update call returns a validation error about an unknown path operator, fall back to: (a) `query` the current document text, (b) concatenate the new section onto it, (c) `update` with the full new text. This works but each call grows in size as the spec lengthens, and the final call is just as big as a one-shot save. Still better than failing — the user can always read the partial spec from the document.
+2. **`text.append` operator on update.** `updates={"text.append": [...]}`. If an update call returns a validation error about an unknown path operator, fall back to: (a) `query` the current document text, (b) concatenate the new section onto it, (c) `update` with the full new text. This works but each call grows in size as the spec lengthens, and the final call is just as big as a one-shot `create`. Still better than failing — the user can always read the partial spec from the document.
 
 Both fallbacks let the skill still produce correct output when the new capabilities aren't yet live. See the "Incremental spec authoring via MCP" idea for the work to land them properly.
 
