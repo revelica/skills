@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.revelica/revelica",
+  "title": "Revelica",
+  "description": "Product intelligence for AI agents — query a Revelica workspace's ideas, specs, and research.",
+  "version": "1.0.0",
+  "websiteUrl": "https://revelica.com",
+  "repository": {
+    "url": "https://github.com/revelica/skills",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.revelica.com/mcp"
+    }
+  ]
+}

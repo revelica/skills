@@ -1,3 +1,9 @@
+# Private keys (e.g. MCP registry publishing key) — never commit
+*.pem
+*.key
+key.pem
+mcp-registry-auth
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
