@@ -15,8 +15,7 @@ revelica/skills
 ├── .cursor-plugin/
 │   └── plugin.json              # Cursor plugin manifest
 ├── skills/                      # Skill definitions (Agent Skills open standard)
-│   ├── product-context/         # Required workspace orientation
-│   ├── product-for-coding-agents/  # Product layer for coding agents
+│   ├── product-for-coding-agents/  # Product layer for coding agents (orientation)
 │   └── write-spec/              # Author a feature spec attached to an idea
 ├── server.json                  # MCP registry manifest (registry.modelcontextprotocol.io)
 ├── .mcp.json                    # MCP config for Cursor/Gemini
@@ -67,8 +66,7 @@ own workspace's data.
 
 | Skill | Description |
 |-------|-------------|
-| `product-context` | Required orientation for any workspace session — access patterns, the skill catalog, and sync-as-you-work expectations so you don't re-derive what's already saved. |
-| `product-for-coding-agents` | The product layer for a coding agent: read the idea/spec/UX behind the code, write high-level results (PRDs, PRs, tested assumptions, ideas, sources) back. |
+| `product-for-coding-agents` | Orientation for a coding agent: read the idea/spec/UX behind the code, write high-level results (impl docs, PRs, tested feasibility assumptions, ideas, sources) back. |
 | `write-spec` | Author a feature spec attached to an idea, following the Revelica spec template — incremental section-by-section writes that fit coding-agent tool-call budgets. |
 
 ## Adding a New Skill
