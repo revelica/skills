@@ -97,8 +97,10 @@ No backend changes needed unless the skill requires a new MCP tool.
 
 # About Revelica
 
-Revelica is an AI-native product discovery platform. It helps product managers create customer insights, competitive analysis, and validated specs that feed into their AI development workflow.
+Revelica is an AI-native product discovery platform. It helps product teams gather customer insights, perform competitive analysis, and experimentally validate ideas that feed into their AI development workflow.
 
-🔗 https://revelica.com
+🔗 Homepage with free Pro trial: https://revelica.com
 
-🔗 https://app.revelica.com/insights
+🔗 Template library with playbooks, skills, and insight templates: https://revelica.com/templates
+
+🔗 Free AI tools with no signup required: https://revelica.com/tools
