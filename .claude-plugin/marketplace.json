@@ -1,14 +1,23 @@
 {
   "name": "revelica",
+  "description": "Official Revelica plugins — the product layer for AI agents, connecting them to your team's ideas, specs, and research.",
   "owner": {
-    "name": "Revelica"
+    "name": "Revelica",
+    "url": "https://revelica.com"
   },
   "plugins": [
     {
       "name": "revelica",
+      "displayName": "Revelica",
       "source": "./",
-      "description": "Revelica MCP tools and skills for product intelligence",
-      "version": "1.5.0"
+      "description": "Connects Claude to a Revelica product workspace — customer research, competitive analysis, story maps, goals, bets, and specs — plus Revelica's product skills.",
+      "version": "1.6.0",
+      "category": "productivity",
+      "homepage": "https://revelica.com",
+      "author": {
+        "name": "Revelica",
+        "url": "https://revelica.com"
+      }
     }
   ]
 }

@@ -1,6 +1,23 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "revelica",
-  "description": "Revelica MCP tools and skills for product intelligence",
-  "version": "1.5.0",
+  "displayName": "Revelica",
+  "description": "Connects Claude to a Revelica product workspace — customer research, competitive analysis, story maps, goals, bets, and specs — plus Revelica's product skills.",
+  "version": "1.6.0",
+  "author": {
+    "name": "Revelica",
+    "url": "https://revelica.com"
+  },
+  "homepage": "https://revelica.com",
+  "repository": "https://github.com/revelica/skills",
+  "license": "Apache-2.0",
+  "keywords": [
+    "product-management",
+    "product-discovery",
+    "specs",
+    "prd",
+    "customer-research",
+    "competitive-analysis"
+  ],
   "mcpServers": "./.claude-plugin/mcp.json"
 }

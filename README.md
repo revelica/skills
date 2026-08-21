@@ -1,8 +1,14 @@
-# Revelica Skills
+<p align="center">
+  <img src="assets/revelica-icon-512.png" alt="Revelica" width="96" height="96">
+</p>
 
-Official Revelica plugin for AI coding tools — provides MCP-connected skills for
-product intelligence. Follows the [Agent Skills open standard](https://agentskills.io/specification),
-compatible with Claude Code, Cursor, Gemini CLI, OpenAI Codex, and more.
+<h1 align="center">Revelica Skills</h1>
+
+Official Revelica plugin for AI agents. Connects an agent to a Revelica product
+workspace — customer research, competitive analysis, user story maps, goals, bets,
+and the specs that come out of them — and bundles Revelica's own product skills.
+Follows the [Agent Skills open standard](https://agentskills.io/specification),
+compatible with Claude Code, Cowork, Cursor, Gemini CLI, OpenAI Codex, and more.
 
 ## Repository Structure
 
@@ -17,9 +23,11 @@ revelica/skills
 ├── skills/                      # Skill definitions (Agent Skills open standard)
 │   ├── product-for-coding-agents/  # Product layer for coding agents (orientation)
 │   └── write-spec/              # Author a feature spec attached to an idea
+├── assets/                      # Brand icons (README, directory submissions)
 ├── server.json                  # MCP registry manifest (registry.modelcontextprotocol.io)
 ├── .mcp.json                    # MCP config for Cursor/Gemini
-└── gemini-extension.json        # Gemini CLI extension manifest
+├── gemini-extension.json        # Gemini CLI extension manifest
+└── LICENSE                      # Apache-2.0
 ```
 
 ## Installation by Platform
@@ -33,6 +41,11 @@ revelica/skills
 
 Skills are **model-invoked** — Claude automatically uses them based on context. The MCP
 server is registered automatically.
+
+### Cowork
+
+Add `https://api.revelica.com/mcp` as a custom connector in your organization's
+settings. Skills come with the plugin once it is listed in the plugin directory.
 
 ### Cursor
 
@@ -53,11 +66,12 @@ These tools are provided by the Revelica MCP server and callable from any skill:
 
 | Tool | Description |
 |------|-------------|
-| `query` | Search the workspace knowledge base — artifacts, entities, schemas. Filter by `artifact_type`, control detail with `depth`. |
-| `read` | Read a single artifact or entity in full by id. |
+| `query` | Search or filter the workspace by criteria. Returns ranked matches, plus the schema template when `artifact_type` is set. |
+| `read` | Read a single artifact or entity in full by id, or navigate to a subtree with a dotted field `path`. |
 | `create` | Create new artifacts or entities. Content validated against registered schemas. |
 | `update` | Apply partial field-level updates via dot-path notation. |
 | `load_skill` | Load a skill's instructions and prefetched workspace data. |
+| `list_skills` | List the skills this workspace exposes to MCP clients. |
 
 All tools require OAuth authentication and enforce Supabase RLS — users only see their
 own workspace's data.
@@ -94,6 +108,42 @@ own workspace's data.
    ```
 
 No backend changes needed unless the skill requires a new MCP tool.
+
+## Connecting the MCP Server Directly
+
+If you'd rather connect the server without the plugin, add it as a remote MCP
+server / custom connector:
+
+| | |
+|---|---|
+| **Server URL** | `https://api.revelica.com/mcp` |
+| **Transport** | Streamable HTTP |
+| **Authentication** | OAuth 2.0 with dynamic client registration — no API key to manage |
+| **Prerequisite** | A Revelica workspace ([sign up](https://app.revelica.com)) |
+
+Server metadata is published at
+[`/.well-known/mcp/server-card.json`](https://api.revelica.com/.well-known/mcp/server-card.json).
+
+## Privacy Policy
+
+Revelica's privacy policy — covering what data is collected, how it is used and
+stored, third-party sharing, retention, and how to contact us — is published at
+[revelica.com/privacy](https://revelica.com/privacy). Terms of service are at
+[revelica.com/terms](https://revelica.com/terms).
+
+The MCP server reads and writes only the product data in your own Revelica
+workspace. Every request is authenticated with OAuth and enforced by Supabase
+row-level security, so a connected agent can never see another workspace's data.
+The server does not query your chat history, conversation summaries, or files.
+
+## Support
+
+- **Issues with the plugin or skills:** [open a GitHub issue](https://github.com/revelica/skills/issues)
+- **Account, workspace, or MCP server issues:** ask@revelica.com
+
+## License
+
+[Apache-2.0](LICENSE) © Revelica
 
 # About Revelica
 

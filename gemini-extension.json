@@ -1,7 +1,7 @@
 {
   "name": "revelica",
-  "version": "1.5.0",
-  "description": "Revelica MCP tools and skills for product intelligence",
+  "version": "1.6.0",
+  "description": "Connects Claude to a Revelica product workspace — customer research, competitive analysis, story maps, goals, bets, and specs — plus Revelica's product skills.",
   "mcpServers": {
     "revelica": {
       "url": "https://api.revelica.com/mcp"
