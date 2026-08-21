@@ -42,6 +42,11 @@ revelica/skills
 Skills are **model-invoked** — Claude automatically uses them based on context. The MCP
 server is registered automatically.
 
+### Cowork
+
+Add `https://api.revelica.com/mcp` as a custom connector in your organization's
+settings. Skills come with the plugin once it is listed in the plugin directory.
+
 ### Cursor
 
 Install via the `.cursor-plugin/plugin.json` manifest. Cursor will discover skills from
