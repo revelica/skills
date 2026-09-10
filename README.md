@@ -4,11 +4,9 @@
 
 <h1 align="center">Revelica Skills</h1>
 
-Official Revelica plugin for AI agents. Connects an agent to a Revelica product
-workspace — customer research, competitive analysis, user story maps, goals, bets,
-and the specs that come out of them — and bundles Revelica's own product skills.
-Follows the [Agent Skills open standard](https://agentskills.io/specification),
-compatible with Claude Code, Cowork, Cursor, Gemini CLI, OpenAI Codex, and more.
+Revelica's plugin package connects an agent to shared product context: customer research, competitive analysis, goals, bets and product specs. It bundles `use-revelica` as a general starting point and `product-for-coding-agents` as an implementation specialization. Product workflows are discovered and loaded from the connected Revelica MCP server with `list_skills` and `load_skill`.
+
+The repository includes client-specific manifests and an [Agent Skills](https://agentskills.io/specification) directory. Installation, skill discovery and OAuth support depend on the client; these files do not establish support for the emerging skills-over-MCP extension in every host.
 
 ## Repository Structure
 
@@ -21,8 +19,8 @@ revelica/skills
 ├── .cursor-plugin/
 │   └── plugin.json              # Cursor plugin manifest
 ├── skills/                      # Skill definitions (Agent Skills open standard)
-│   ├── product-for-coding-agents/  # Product layer for coding agents (orientation)
-│   └── write-spec/              # Author a feature spec attached to an idea
+│   ├── use-revelica/            # General starting point; loads server orientation
+│   └── product-for-coding-agents/  # Coding-specific orientation
 ├── assets/                      # Brand icons (README, directory submissions)
 ├── server.json                  # MCP registry manifest (registry.modelcontextprotocol.io)
 ├── .mcp.json                    # MCP config for Cursor/Gemini
@@ -39,18 +37,16 @@ revelica/skills
 /plugin install revelica@revelica
 ```
 
-Skills are **model-invoked** — Claude automatically uses them based on context. The MCP
-server is registered automatically.
+The plugin manifest points to the bundled orientation and MCP configuration. Authorize the server connection in your client before using workspace tools.
 
 ### Cowork
 
 Add `https://api.revelica.com/mcp` as a custom connector in your organization's
-settings. Skills come with the plugin once it is listed in the plugin directory.
+settings. A connector connection is separate from installing this bundled orientation. Discover server workflows through `list_skills` and `load_skill` when the client exposes those tools.
 
 ### Cursor
 
-Install via the `.cursor-plugin/plugin.json` manifest. Cursor will discover skills from
-the `skills/` directory and connect to the MCP server via `.mcp.json` automatically.
+The `.cursor-plugin/plugin.json` manifest declares the `skills/` directory and `.mcp.json` server configuration. Use the installation and authorization flow supported by your Cursor version.
 
 ### Gemini CLI
 
@@ -58,7 +54,7 @@ the `skills/` directory and connect to the MCP server via `.mcp.json` automatica
 gemini extensions install revelica/skills
 ```
 
-The `gemini-extension.json` manifest registers both skills and the MCP server.
+The `gemini-extension.json` manifest declares the skills directory and MCP server configuration. Check that the installed client exposes both after authorization.
 
 ## Available MCP Tools
 
@@ -70,44 +66,31 @@ These tools are provided by the Revelica MCP server and callable from any skill:
 | `read` | Read a single artifact or entity in full by id, or navigate to a subtree with a dotted field `path`. |
 | `create` | Create new artifacts or entities. Content validated against registered schemas. |
 | `update` | Apply partial field-level updates via dot-path notation. |
-| `load_skill` | Load a skill's instructions and prefetched workspace data. |
+| `load_skill` | Load a server skill's instructions and supported context or references. This does not itself execute a playbook. |
 | `list_skills` | List the skills this workspace exposes to MCP clients. |
 
 All tools require OAuth authentication and enforce Supabase RLS — users only see their
 own workspace's data.
 
-## Available Skills
+## Bundled orientation and server workflows
 
-| Skill | Description |
-|-------|-------------|
-| `product-for-coding-agents` | Orientation for a coding agent: read the idea/spec/UX behind the code, write high-level results (impl docs, PRs, tested feasibility assumptions, ideas, sources) back. |
-| `write-spec` | Author a feature spec attached to an idea, following the Revelica spec template — incremental section-by-section writes that fit coding-agent tool-call budgets. |
+| Location | Skill | Purpose |
+|---|---|---|
+| This package | `use-revelica` | Load the server orientation, reuse available context and discover the task that matches the user's request. |
+| This package | `product-for-coding-agents` | Orient on the Idea/spec, customer problem and bet; save implementation references and feasibility evidence. |
+| Connected MCP server | `write-product-spec` | Author or revise the canonical product spec using the current server instructions and schema. Discover availability with `list_skills`, then load it with `load_skill`. |
 
-## Adding a New Skill
+The bundled `use-revelica` is a thin bootstrap: it calls the connected server's `load_skill` for the server skill with the same name. Product workflow instructions stay on the server. The coding orientation adds implementation-specific guidance and is optional for general product work. Current task entries include `frame-bet`, `write-product-spec` and `test-idea`; use the live catalog to check availability.
 
-1. Create a folder under `skills/`:
-   ```bash
-   mkdir skills/my-skill
-   touch skills/my-skill/SKILL.md
-   ```
+An Idea is the product spec. Its story map, structured document and Markdown are representations of the same spec. The package does not bundle a second spec-authoring implementation.
 
-2. Write `SKILL.md` following the [Agent Skills spec](https://agentskills.io/specification):
-   ```markdown
-   ---
-   name: my-skill
-   description: What this skill does and when to use it.
-   compatibility: Requires Revelica MCP server (query, read, create, update tools)
-   ---
+The live `list_skills` response is authoritative for the connected server and user. Loading instructions lets the current agent follow a workflow using the available tools; it does not start a server-side playbook/DAG. These tool-based workflows do not require a host to implement the skills-over-MCP extension.
 
-   Instructions for the agent...
-   ```
+## Updating skills
 
-3. Commit and push. Users get the update by running:
-   ```
-   /plugin update revelica@revelica
-   ```
+Keep client orientation and package configuration here. Maintain product workflow instructions on the Revelica server so the app and connected agents can discover the same canonical workflow. Add a bundled skill only when it serves a client-side purpose that cannot be covered by the orientation and server discovery.
 
-No backend changes needed unless the skill requires a new MCP tool.
+Package updates and server deployments are separate. A newly documented server workflow must be deployed before a connected client can load it. Deploy the backend canonical skills (`use-revelica`, `frame-bet`, `write-product-spec` and `test-idea`) before releasing this package update. Do not assume installing this package deploys them.
 
 ## Connecting the MCP Server Directly
 
