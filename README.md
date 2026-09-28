@@ -59,13 +59,13 @@ The `gemini-extension.json` manifest declares the skills directory and MCP serve
 
 ## Starting prompts
 
-The plugin adds three commands, the same starting points the Revelica app suggests:
+The plugin adds three commands, the same starting points the Revelica app offers:
 
 | Command | What it does |
 |---|---|
-| `/revelica:model-your-business` | Set up the workspace: your company, product, customer and value proposition. The first step for a new workspace. |
-| `/revelica:frame-bet` | Frame a grounded product bet toward the project goal, then review its assumptions. |
-| `/revelica:plan-next-steps` | Read the goal, its measurements, the active bets and their evidence, then recommend the next action and plan it as work. |
+| `/revelica:plan-work` | Plan the work toward our goal: read the goal, its measurements, the active bets and their evidence, then recommend the next action and plan it as work. Sets up anything the workspace is missing along the way. |
+| `/revelica:add-insights` | Add insights to the knowledge graph: save a URL, file or note as product evidence, then choose the next useful work. |
+| `/revelica:analyze-interview` | Analyze a customer interview: turn a transcript into a snapshot and the customer problems worth solving. |
 
 ## What the plugin connects to and sends
 
@@ -113,7 +113,7 @@ Keep client orientation and package configuration here. Maintain product workflo
 
 Package updates and server deployments are separate. A newly documented server workflow must be deployed before a connected client can load it. Release 1.7.0 paired with the server change that retired the server's `use-revelica` and moved routing into the server instructions. Installing this package does not deploy server changes.
 
-The commands in `commands/` mirror prompts the server's skills declare (`model-your-business`, `frame-bet`, `drive-product-outcome`). Keep them in step when those change.
+The commands in `commands/` mirror the app's starting prompts, which the server's skills declare (`drive-product-outcome`, `ingestion`, `interview-snapshot`). Keep them in step when those change.
 
 When the server's routing in its instructions changes, update the list in `skills/use-revelica/SKILL.md` to match.
 
