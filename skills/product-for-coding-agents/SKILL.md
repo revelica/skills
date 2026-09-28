@@ -14,7 +14,9 @@ Use Revelica to understand what to build and why, then keep that product context
 
 ## Discover the current workflow
 
-Call `list_skills` on the connected Revelica server to discover the workflows available to this user. Load the relevant workflow with `load_skill`, using the server's actual tool schema for arguments. Read any shared references it returns through that server's supported loading path.
+Start by loading the **server's `product-for-coding-agents`** with `load_skill`, using the server's actual tool schema for arguments. This fetches the current server instructions, not this bundled file with the same name. Pass the Idea you are building as `context_entities` when you already have its id, so the server prefetches it. Follow the loaded instructions; the sections below are the short version and apply if that load fails.
+
+For other product jobs, follow the routing in the Revelica server's instructions, or call `list_skills` and choose by description. Read any shared references a skill returns through that server's supported loading path.
 
 For creating or revising a product spec, load **`write-product-spec`**. Follow its instructions for reusing the existing Idea and gathering only the context needed for the user's current task. If the workflow is unavailable, report that limitation; do not substitute an obsolete bundled spec workflow or invent its schema.
 
@@ -35,7 +37,7 @@ A **hypothesis is a bet**, connecting an opportunity, intended outcome, mechanis
 - Keep the existing spec current when the user agrees to a requirement change. Load `write-product-spec` for product-spec authoring and follow its persistence contract across representations.
 - Record implementation references such as pull requests, releases or prototype previews using the live Idea schema. Include what was actually built and tested, and what remains incomplete.
 - Capture feasibility assumptions and evidence revealed by implementation. Distinguish a proposed test, an observed result and an unsupported claim. Link evidence to its actual subject using the relationships supported by the server.
-- Save useful sources and findings so later work can reuse them. For formal assumption tests, discover and load the relevant experiment workflow before collecting evidence; follow its saved protocol and reporting requirements.
+- Save useful sources and findings so later work can reuse them. For formal assumption tests, load `design-experiment` before collecting evidence; follow its saved protocol and reporting requirements.
 - Preserve existing Ideas when implementing slices or revising the same solution. For a genuinely different solution, follow the product workflow's guidance on alternatives instead of silently overwriting the original.
 
 Use `query` and `read` to obtain current schemas before writes. Do not assume field names, relationship fields, project scope or versioning behavior from an older package. Check write results for the persisted ID and version, and use returned references for follow-up work.
@@ -44,6 +46,6 @@ Use `query` and `read` to obtain current schemas before writes. Do not assume fi
 
 A prototype used to test an assumption is discovery work. Production implementation of an agreed spec slice is delivery work. State which one was built and what its evidence supports; a working prototype alone does not establish production readiness or customer value.
 
-If the user asks for product discovery or bet framing, discover and load the appropriate server skill. Do not require a separate plugin copy of each workflow or assume an unavailable remote agent will execute it.
+If the user asks for product discovery or bet framing, load the matching server skill: `drive-product-outcome` for work toward a goal, `frame-bet` for one bet. Do not require a separate plugin copy of each workflow or assume an unavailable remote agent will execute it.
 
 Before ending the session, save the agreed spec changes, implementation references and important findings. Tell the user what was saved and provide the available Revelica links so the team and the next session can continue from the same context.
