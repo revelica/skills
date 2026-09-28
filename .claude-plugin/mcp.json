@@ -1,6 +1,0 @@
-{
-  "revelica": {
-    "type": "http",
-    "url": "https://api.revelica.com/mcp"
-  }
-}

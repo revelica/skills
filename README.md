@@ -14,16 +14,17 @@ The repository includes client-specific manifests and an [Agent Skills](https://
 revelica/skills
 ├── .claude-plugin/
 │   ├── marketplace.json         # Claude Code marketplace catalog
-│   ├── plugin.json              # Claude Code plugin manifest
-│   └── mcp.json                 # MCP config for Claude Code plugin
+│   ├── plugin.json              # Claude plugin manifest
+│   └── icon.png                 # Plugin icon (512x512)
 ├── .cursor-plugin/
 │   └── plugin.json              # Cursor plugin manifest
+├── commands/                    # Suggested starting prompts, as slash commands
 ├── skills/                      # Skill definitions (Agent Skills open standard)
 │   ├── use-revelica/            # Routes product work to a server skill
 │   └── product-for-coding-agents/  # Loads the server's coding skill
 ├── assets/                      # Brand icons (README, directory submissions)
 ├── server.json                  # MCP registry manifest (registry.modelcontextprotocol.io)
-├── .mcp.json                    # MCP config for Cursor/Gemini
+├── .mcp.json                    # The Revelica MCP server, for every client
 ├── gemini-extension.json        # Gemini CLI extension manifest
 └── LICENSE                      # Apache-2.0
 ```
@@ -37,7 +38,7 @@ revelica/skills
 /plugin install revelica@revelica
 ```
 
-The plugin manifest points to the bundled orientation and MCP configuration. Authorize the server connection in your client before using workspace tools.
+The plugin bundles the orientation skills, the starting commands and the MCP server configuration. Authorize the server connection in your client before using workspace tools.
 
 ### Cowork
 
@@ -56,6 +57,26 @@ gemini extensions install revelica/skills
 
 The `gemini-extension.json` manifest declares the skills directory and MCP server configuration. Check that the installed client exposes both after authorization.
 
+## Starting prompts
+
+The plugin adds three commands, the same starting points the Revelica app suggests:
+
+| Command | What it does |
+|---|---|
+| `/revelica:model-your-business` | Set up the workspace: your company, product, customer and value proposition. The first step for a new workspace. |
+| `/revelica:frame-bet` | Frame a grounded product bet toward the project goal, then review its assumptions. |
+| `/revelica:plan-next-steps` | Read the goal, its measurements, the active bets and their evidence, then recommend the next action and plan it as work. |
+
+## What the plugin connects to and sends
+
+The plugin runs no code on your machine. It declares one remote MCP server, `https://api.revelica.com/mcp` (Streamable HTTP), and bundles Markdown skills and commands that tell the agent how to use it.
+
+- **Sign-in:** OAuth 2.0 with dynamic client registration, handled by your client. The plugin reads no credentials, tokens or files from your machine.
+- **What it sends:** the tool calls your agent makes (`query`, `read`, `create`, `update`, `load_skill`, `list_skills`) and their arguments, which carry the product data you ask it to save to your workspace.
+- **What it receives:** records from your own Revelica workspace, and skill instructions.
+
+Nothing else is sent anywhere. See [Privacy Policy](#privacy-policy) for how Revelica handles your data.
+
 ## Available MCP Tools
 
 These tools are provided by the Revelica MCP server and callable from any skill:
@@ -69,7 +90,7 @@ These tools are provided by the Revelica MCP server and callable from any skill:
 | `load_skill` | Load a server skill's instructions, its readiness and a summary of the records it starts from. This does not itself execute a playbook. |
 | `list_skills` | List the skills you can load, with each one's name, description and any required inputs. |
 
-All tools require OAuth authentication and enforce Supabase RLS — users only see their
+All tools require OAuth authentication and enforce Supabase row-level security, so users only see their
 own workspace's data.
 
 ## Bundled orientation and server workflows
@@ -90,7 +111,9 @@ The live `list_skills` response is authoritative for the connected server and us
 
 Keep client orientation and package configuration here. Maintain product workflow instructions on the Revelica server so the app and connected agents can discover the same canonical workflow. Add a bundled skill only when it serves a client-side purpose that cannot be covered by the orientation and server discovery.
 
-Package updates and server deployments are separate. A newly documented server workflow must be deployed before a connected client can load it. Release 1.7.0 pairs with the server change that retired the server's `use-revelica` and moved routing into the server instructions: deploy the two together. Installing this package does not deploy server changes.
+Package updates and server deployments are separate. A newly documented server workflow must be deployed before a connected client can load it. Release 1.7.0 paired with the server change that retired the server's `use-revelica` and moved routing into the server instructions. Installing this package does not deploy server changes.
+
+The commands in `commands/` mirror prompts the server's skills declare (`model-your-business`, `frame-bet`, `drive-product-outcome`). Keep them in step when those change.
 
 When the server's routing in its instructions changes, update the list in `skills/use-revelica/SKILL.md` to match.
 
@@ -103,7 +126,7 @@ server / custom connector:
 |---|---|
 | **Server URL** | `https://api.revelica.com/mcp` |
 | **Transport** | Streamable HTTP |
-| **Authentication** | OAuth 2.0 with dynamic client registration — no API key to manage |
+| **Authentication** | OAuth 2.0 with dynamic client registration, so there's no API key to manage |
 | **Prerequisite** | A Revelica workspace ([sign up](https://app.revelica.com)) |
 
 Server metadata is published at
@@ -111,8 +134,8 @@ Server metadata is published at
 
 ## Privacy Policy
 
-Revelica's privacy policy — covering what data is collected, how it is used and
-stored, third-party sharing, retention, and how to contact us — is published at
+Revelica's privacy policy covers what data is collected, how it is used and
+stored, third-party sharing, retention, and how to contact us. It is published at
 [revelica.com/privacy](https://revelica.com/privacy). Terms of service are at
 [revelica.com/terms](https://revelica.com/terms).
 
