@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "com.revelica/revelica",
   "title": "Revelica",
-  "description": "Revelica is your team's shared memory for product work — ideas, bets, hypotheses, specs, and research. This server exposes a workspace's product intelligence to AI agents via query, read, create, update, and load_skill tools, with OAuth authentication and per-workspace row-level security.",
-  "version": "1.7.0",
+  "description": "Revelica is your team's shared memory for product work: ideas, bets, hypotheses, specs and research. This server exposes a workspace's product intelligence to AI agents via query, read, create, update, and load_skill tools, with OAuth authentication and per-workspace row-level security.",
+  "version": "1.8.0",
   "websiteUrl": "https://revelica.com",
   "icons": [
     {

@@ -2,8 +2,8 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "revelica",
   "displayName": "Revelica",
-  "description": "Connects Claude to a Revelica product workspace — customer research, competitive analysis, story maps, goals, bets, and specs — plus Revelica's product skills.",
-  "version": "1.7.0",
+  "description": "Connects Claude to your Revelica product workspace: customer research, competitive analysis, story maps, goals, bets and specs, plus Revelica's product skills.",
+  "version": "1.8.0",
   "author": {
     "name": "Revelica",
     "url": "https://revelica.com"
@@ -11,6 +11,7 @@
   "homepage": "https://revelica.com",
   "repository": "https://github.com/revelica/skills",
   "license": "Apache-2.0",
+  "privacyPolicyUrl": "https://revelica.com/privacy",
   "keywords": [
     "product-management",
     "product-discovery",
@@ -18,6 +19,5 @@
     "prd",
     "customer-research",
     "competitive-analysis"
-  ],
-  "mcpServers": "./.claude-plugin/mcp.json"
+  ]
 }

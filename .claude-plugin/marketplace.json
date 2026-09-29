@@ -1,6 +1,6 @@
 {
   "name": "revelica",
-  "description": "Official Revelica plugins — the product layer for AI agents, connecting them to your team's ideas, specs, and research.",
+  "description": "Revelica's plugins: the product layer for AI agents, connecting them to your team's ideas, specs and research.",
   "owner": {
     "name": "Revelica",
     "url": "https://revelica.com"
@@ -10,8 +10,8 @@
       "name": "revelica",
       "displayName": "Revelica",
       "source": "./",
-      "description": "Connects Claude to a Revelica product workspace — customer research, competitive analysis, story maps, goals, bets, and specs — plus Revelica's product skills.",
-      "version": "1.7.0",
+      "description": "Connects Claude to your Revelica product workspace: customer research, competitive analysis, story maps, goals, bets and specs, plus Revelica's product skills.",
+      "version": "1.8.0",
       "category": "productivity",
       "homepage": "https://revelica.com",
       "author": {
