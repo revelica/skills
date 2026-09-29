@@ -25,6 +25,7 @@ revelica/skills
 ├── gemini-extension.json        # Gemini CLI extension manifest (must be at the root)
 ├── server.json                  # MCP registry manifest (registry.modelcontextprotocol.io)
 ├── scripts/package-openai.sh    # Builds the ZIP for OpenAI's plugin portal
+├── REVIEWING.md                 # Test setup for directory reviewers
 └── LICENSE                      # Apache-2.0
 ```
 
@@ -147,6 +148,8 @@ row-level security, so a connected agent can never see another workspace's data.
 The server does not query your chat history, conversation summaries, or files.
 
 ## Support
+
+- **Reviewing the plugin for a directory:** see [REVIEWING.md](REVIEWING.md)
 
 - **Issues with the plugin:** [open a GitHub issue](https://github.com/revelica/skills/issues)
 - **Account, workspace, or MCP server issues:** ask@revelica.com
