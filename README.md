@@ -4,9 +4,9 @@
 
 <h1 align="center">Revelica Skills</h1>
 
-Revelica's plugin package connects an agent to shared product context: customer research, competitive analysis, goals, bets and product specs. It bundles `use-revelica`, which routes product work to the right server skill (`drive-product-outcome` by default), and `product-for-coding-agents` for implementation work. The workflows themselves live on the connected Revelica MCP server, which names them in its instructions and loads them with `load_skill`.
+Revelica's plugin package connects an agent to shared product context: customer research, competitive analysis, goals, bets and product specs. It declares the Revelica MCP server and three starting commands. The workflows themselves (skills) live on the server, which names the one for each job in its instructions and loads it with `load_skill`.
 
-The repository includes client-specific manifests and an [Agent Skills](https://agentskills.io/specification) directory. Installation, skill discovery and OAuth support depend on the client; these files do not establish support for the emerging skills-over-MCP extension in every host.
+The repository includes client-specific manifests. Installation and OAuth support depend on the client.
 
 ## Repository Structure
 
@@ -19,9 +19,6 @@ revelica/skills
 ├── .cursor-plugin/
 │   └── plugin.json              # Cursor plugin manifest
 ├── commands/                    # Suggested starting prompts, as slash commands
-├── skills/                      # Skill definitions (Agent Skills open standard)
-│   ├── use-revelica/            # Routes product work to a server skill
-│   └── product-for-coding-agents/  # Loads the server's coding skill
 ├── assets/                      # Brand icons (README, directory submissions)
 ├── server.json                  # MCP registry manifest (registry.modelcontextprotocol.io)
 ├── .mcp.json                    # The Revelica MCP server, for every client
@@ -38,16 +35,16 @@ revelica/skills
 /plugin install revelica@revelica
 ```
 
-The plugin bundles the orientation skills, the starting commands and the MCP server configuration. Authorize the server connection in your client before using workspace tools.
+The plugin bundles the starting commands and the MCP server configuration. Authorize the server connection in your client before using workspace tools.
 
 ### Cowork
 
 Add `https://api.revelica.com/mcp` as a custom connector in your organization's
-settings. A connector connection is separate from installing this bundled orientation. The server's instructions name the skill for each job, and `list_skills` lists the rest.
+settings. The server's instructions name the skill for each job, and `list_skills` lists the rest.
 
 ### Cursor
 
-The `.cursor-plugin/plugin.json` manifest declares the `skills/` directory and `.mcp.json` server configuration. Use the installation and authorization flow supported by your Cursor version.
+The `.cursor-plugin/plugin.json` manifest declares the `.mcp.json` server configuration. Use the installation and authorization flow supported by your Cursor version.
 
 ### Gemini CLI
 
@@ -55,7 +52,7 @@ The `.cursor-plugin/plugin.json` manifest declares the `skills/` directory and `
 gemini extensions install revelica/skills
 ```
 
-The `gemini-extension.json` manifest declares the skills directory and MCP server configuration. Check that the installed client exposes both after authorization.
+The `gemini-extension.json` manifest declares the MCP server configuration. Check that the installed client exposes it after authorization.
 
 ## Starting prompts
 
@@ -69,7 +66,7 @@ The plugin adds three commands, the same starting points the Revelica app offers
 
 ## What the plugin connects to and sends
 
-The plugin runs no code on your machine. It declares one remote MCP server, `https://api.revelica.com/mcp` (Streamable HTTP), and bundles Markdown skills and commands that tell the agent how to use it.
+The plugin runs no code on your machine. It declares one remote MCP server, `https://api.revelica.com/mcp` (Streamable HTTP), and bundles Markdown commands that start common work with it.
 
 - **Sign-in:** OAuth 2.0 with dynamic client registration, handled by your client. The plugin reads no credentials, tokens or files from your machine.
 - **What it sends:** the tool calls your agent makes (`query`, `read`, `create`, `update`, `load_skill`, `list_skills`) and their arguments, which carry the product data you ask it to save to your workspace.
@@ -93,29 +90,21 @@ These tools are provided by the Revelica MCP server and callable from any skill:
 All tools require OAuth authentication and enforce Supabase row-level security, so users only see their
 own workspace's data.
 
-## Bundled orientation and server workflows
+## Skills
 
-| Location | Skill | Purpose |
-|---|---|---|
-| This package | `use-revelica` | Route a product task to the server skill for the job, with `drive-product-outcome` as the default for work toward a goal. |
-| This package | `product-for-coding-agents` | Load the server's coding skill: orient on the Idea/spec, customer problem and bet; save implementation references and feasibility evidence. |
-| Connected MCP server | `drive-product-outcome`, `frame-bet`, `write-product-spec`, `design-experiment` and others | The product workflows. The server's instructions say which one fits which job; `list_skills` shows the full catalog. |
+The product workflows are skills on the connected Revelica MCP server: `drive-product-outcome`, `frame-bet`, `write-product-spec`, `design-experiment`, `product-for-coding-agents` and others. The server's instructions say which one fits which job, and `list_skills` shows the full catalog for the connected user.
 
-The bundled skills are thin. Their descriptions let hosts that discover skills locally (Claude Code, Cursor, Gemini CLI) pick Revelica for product work, and their bodies send the agent to the server. `use-revelica` repeats the server's routing for hosts that do not show MCP server instructions to the model. Product workflow instructions stay on the server.
+An Idea is the product spec. Its story map, structured document and Markdown are representations of the same spec.
 
-An Idea is the product spec. Its story map, structured document and Markdown are representations of the same spec. The package does not bundle a second spec-authoring implementation.
+Loading a skill lets the current agent follow the workflow using the available tools; it does not start a server-side playbook. These tool-based workflows do not require a host to implement the skills-over-MCP extension.
 
-The live `list_skills` response is authoritative for the connected server and user. Loading instructions lets the current agent follow a workflow using the available tools; it does not start a server-side playbook/DAG. These tool-based workflows do not require a host to implement the skills-over-MCP extension.
+## Updating
 
-## Updating skills
+Product workflow instructions live on the Revelica server, so the app and connected agents discover the same canonical workflow, and this package ships none of its own. Release 1.9.0 removed the bundled `use-revelica` and `product-for-coding-agents` routers: every supported Claude host shows the server's instructions, which carry the same routing.
 
-Keep client orientation and package configuration here. Maintain product workflow instructions on the Revelica server so the app and connected agents can discover the same canonical workflow. Add a bundled skill only when it serves a client-side purpose that cannot be covered by the orientation and server discovery.
-
-Package updates and server deployments are separate. A newly documented server workflow must be deployed before a connected client can load it. Release 1.7.0 paired with the server change that retired the server's `use-revelica` and moved routing into the server instructions. Installing this package does not deploy server changes.
+Package updates and server deployments are separate. A newly documented server workflow must be deployed before a connected client can load it. Installing this package does not deploy server changes.
 
 The commands in `commands/` mirror the app's starting prompts, which the server's skills declare (`drive-product-outcome`, `ingestion`, `interview-snapshot`). Keep them in step when those change.
-
-When the server's routing in its instructions changes, update the list in `skills/use-revelica/SKILL.md` to match.
 
 ## Connecting the MCP Server Directly
 
@@ -146,7 +135,7 @@ The server does not query your chat history, conversation summaries, or files.
 
 ## Support
 
-- **Issues with the plugin or skills:** [open a GitHub issue](https://github.com/revelica/skills/issues)
+- **Issues with the plugin:** [open a GitHub issue](https://github.com/revelica/skills/issues)
 - **Account, workspace, or MCP server issues:** ask@revelica.com
 
 ## License

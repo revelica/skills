@@ -1,11 +1,10 @@
 {
   "name": "revelica",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "Connects Claude to your Revelica product workspace: customer research, competitive analysis, story maps, goals, bets and specs, plus Revelica's product skills.",
   "mcpServers": {
     "revelica": {
       "url": "https://api.revelica.com/mcp"
     }
-  },
-  "skillsDirectory": "./skills"
+  }
 }
