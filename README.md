@@ -15,7 +15,7 @@ revelica/skills
 ├── .claude-plugin/
 │   ├── marketplace.json         # Claude Code marketplace catalog
 │   ├── plugin.json              # Claude plugin manifest
-│   └── icon.png                 # Plugin icon (512x512)
+│   └── icon.svg                 # Plugin icon (square, from the brand SVG)
 ├── .cursor-plugin/
 │   └── plugin.json              # Cursor plugin manifest
 ├── commands/                    # Suggested starting prompts, as slash commands
