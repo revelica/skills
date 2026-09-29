@@ -12,6 +12,9 @@
   "repository": "https://github.com/revelica/skills",
   "license": "Apache-2.0",
   "privacyPolicyUrl": "https://revelica.com/privacy",
+  "termsOfServiceUrl": "https://revelica.com/terms",
+  "supportUrl": "https://revelica.com/support",
+  "documentationUrl": "https://revelica.com/docs/mcp",
   "keywords": [
     "product-management",
     "product-discovery",
