@@ -26,9 +26,9 @@ Your client opens a Revelica consent screen. Click **Allow**.
 
 Use the plugin's suggested prompts, or its skills:
 
-- **Plan the work toward our goal** (`plan-work`)
-- **Add insights to our knowledge graph** (`add-insights`)
-- **Analyze a customer interview** (`analyze-interview`)
+- **Plan the work toward our goal** (`drive-product-outcome`)
+- **Add insights to our knowledge graph** (`ingestion`)
+- **Analyze a customer interview** (`interview-snapshot`)
 
 Each one reads from and writes to the Scryify workspace through the `query`, `read`, `create`, `update`, `load_skill` and `list_skills` tools. To see what the agent saved, browse the workspace in the web app, where you're still signed in (optional).
 

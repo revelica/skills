@@ -72,9 +72,9 @@ The plugin adds three skills, the same starting points the Revelica app offers. 
 
 | Skill | What it does |
 |---|---|
-| `/revelica:plan-work` | Plan the work toward our goal: read the goal, its measurements, the active bets and their evidence, then recommend the next action and plan it as work. Sets up anything the workspace is missing along the way. |
-| `/revelica:add-insights` | Add insights to the knowledge graph: save a URL, file or note as product evidence, then choose the next useful work. |
-| `/revelica:analyze-interview` | Analyze a customer interview: turn a transcript into a snapshot and the customer problems worth solving. |
+| `/revelica:drive-product-outcome` | Plan the work toward our goal: read the goal, its measurements, the active bets and their evidence, then recommend the next action and plan it as work. Sets up anything the workspace is missing along the way. |
+| `/revelica:ingestion` | Add insights to the knowledge graph: save a URL, file or note as product evidence, then choose the next useful work. |
+| `/revelica:interview-snapshot` | Analyze a customer interview: turn a transcript into a snapshot and the customer problems worth solving. |
 
 ## What the plugin connects to and sends
 
@@ -112,13 +112,13 @@ Loading a skill lets the current agent follow the workflow using the available t
 
 ## Updating
 
-Product workflow instructions live on the Revelica server, so the app and connected agents discover the same canonical workflow. The package's three skills only start them. Release 1.9.0 removed the bundled `use-revelica` and `product-for-coding-agents` routers: every supported Claude host shows the server's instructions, which carry the same routing.
+Product workflow instructions live on the Revelica server, so the app and connected agents discover the same canonical workflow. The package's three skills share the names and descriptions of the server skills they start, and load the full workflow from the server with `load_skill`, so the workflow and the workspace readiness it reports are always current. Release 1.9.0 removed the bundled `use-revelica` and `product-for-coding-agents` routers: every supported Claude host shows the server's instructions, which carry the same routing.
 
 Release 1.10.0 moved the plugin into `plugins/revelica/`, turned the commands into skills so every host can use them, and added the OpenAI manifest. Bump the version in every manifest together.
 
 Package updates and server deployments are separate. A newly documented server workflow must be deployed before a connected client can load it. Installing this package does not deploy server changes.
 
-The skills in `plugins/revelica/skills/` mirror the app's starting prompts, which the server's skills declare (`drive-product-outcome`, `ingestion`, `interview-snapshot`). Keep them in step when those change.
+The skills in `plugins/revelica/skills/` carry the name, description and starting prompt of the server skill with the same name (scryfast `revelica_agents/app/agents/revelica/skills/`). Keep them in step when those change.
 
 ## Connecting the MCP Server Directly
 

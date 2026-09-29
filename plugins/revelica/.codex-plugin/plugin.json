@@ -20,7 +20,7 @@
   "mcpServers": "./.mcp.json",
   "extensions": {
     "com.openai": {
-      "onboardingSkill": "./skills/plan-work/SKILL.md"
+      "onboardingSkill": "./skills/drive-product-outcome/SKILL.md"
     }
   },
   "interface": {
