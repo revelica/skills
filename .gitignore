@@ -13,3 +13,6 @@ mcp-registry-auth
 Thumbs.db
 desktop.ini
 __MACOSX/
+
+# Built plugin archives
+dist/

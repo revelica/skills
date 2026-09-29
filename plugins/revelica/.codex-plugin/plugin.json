@@ -1,0 +1,44 @@
+{
+  "name": "revelica",
+  "version": "1.10.0",
+  "description": "Connects your AI assistant to your Revelica product workspace: customer research, competitive analysis, story maps, goals, bets and specs, plus Revelica's product skills.",
+  "author": {
+    "name": "Revelica",
+    "url": "https://revelica.com"
+  },
+  "homepage": "https://revelica.com",
+  "repository": "https://github.com/revelica/skills",
+  "license": "Apache-2.0",
+  "keywords": [
+    "product-management",
+    "product-discovery",
+    "specs",
+    "customer-research",
+    "competitive-analysis"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "extensions": {
+    "com.openai": {
+      "onboardingSkill": "./skills/plan-work/SKILL.md"
+    }
+  },
+  "interface": {
+    "displayName": "Revelica",
+    "shortDescription": "Your team's product context",
+    "longDescription": "Revelica is your team's shared product workspace. Connect it to read and save customer research, competitive analysis, goals, bets, story maps and specs, so every conversation starts from what your team already knows. Plan the work toward a goal, turn a customer interview into the problems worth solving, or save a link or note as evidence. Requires a Revelica account.",
+    "developerName": "Revelica",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "websiteURL": "https://revelica.com",
+    "privacyPolicyURL": "https://revelica.com/privacy",
+    "termsOfServiceURL": "https://revelica.com/terms",
+    "defaultPrompt": [
+      "Plan the work toward our goal",
+      "Add insights to our knowledge graph",
+      "Analyze a customer interview"
+    ],
+    "composerIcon": "./assets/revelica-icon-512.png",
+    "logo": "./assets/revelica-icon-512.png"
+  }
+}

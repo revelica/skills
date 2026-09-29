@@ -1,0 +1,14 @@
+{
+  "name": "revelica",
+  "owner": {
+    "name": "Revelica",
+    "url": "https://revelica.com"
+  },
+  "plugins": [
+    {
+      "name": "revelica",
+      "source": "./plugins/revelica",
+      "description": "Connects your AI assistant to your Revelica product workspace: customer research, competitive analysis, story maps, goals, bets and specs, plus Revelica's product skills."
+    }
+  ]
+}
