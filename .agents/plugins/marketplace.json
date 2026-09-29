@@ -1,0 +1,20 @@
+{
+  "name": "revelica",
+  "interface": {
+    "displayName": "Revelica"
+  },
+  "plugins": [
+    {
+      "name": "revelica",
+      "source": {
+        "source": "local",
+        "path": "./plugins/revelica"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
