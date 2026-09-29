@@ -11,7 +11,7 @@
       "displayName": "Revelica",
       "source": "./plugins/revelica",
       "description": "Connects Claude to your Revelica product workspace: customer research, competitive analysis, story maps, goals, bets and specs, plus Revelica's product skills.",
-      "version": "1.10.0",
+      "version": "1.10.1",
       "category": "productivity",
       "homepage": "https://revelica.com",
       "author": {
