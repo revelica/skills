@@ -15,14 +15,11 @@ revelica/skills
 ├── plugins/revelica/            # The plugin, shared by every host
 │   ├── .claude-plugin/          # Claude plugin manifest and icon
 │   ├── .codex-plugin/           # OpenAI (ChatGPT and Codex) plugin manifest
-│   ├── .cursor-plugin/          # Cursor plugin manifest
 │   ├── .mcp.json                # The Revelica MCP server
 │   ├── skills/                  # Starting skills (also slash commands in Claude Code)
 │   └── assets/                  # Brand icons
 ├── .claude-plugin/marketplace.json   # Claude Code marketplace catalog
 ├── .agents/plugins/marketplace.json  # Codex marketplace catalog
-├── .cursor-plugin/marketplace.json   # Cursor marketplace catalog
-├── gemini-extension.json        # Gemini CLI extension manifest (must be at the root)
 ├── server.json                  # MCP registry manifest (registry.modelcontextprotocol.io)
 ├── scripts/package-openai.sh    # Builds the ZIP for OpenAI's plugin portal
 ├── REVIEWING.md                 # Test setup for directory reviewers
@@ -54,17 +51,9 @@ codex plugin add revelica@revelica
 
 In ChatGPT, install Revelica from the plugin directory once it is listed.
 
-### Cursor
+### Other clients
 
-The root `.cursor-plugin/marketplace.json` points Cursor at `plugins/revelica/`, whose manifest declares the `.mcp.json` server configuration. Use the installation and authorization flow supported by your Cursor version.
-
-### Gemini CLI
-
-```
-gemini extensions install revelica/skills
-```
-
-The `gemini-extension.json` manifest declares the MCP server configuration. Check that the installed client exposes it after authorization.
+Cursor, Gemini CLI and any other client that speaks Streamable HTTP with OAuth can connect the server directly (see [Connecting the MCP Server Directly](#connecting-the-mcp-server-directly)). We only ship and test plugins for Claude and OpenAI hosts. Release 1.10.1 removed the Cursor and Gemini manifests, which nobody was testing.
 
 ## Starting prompts
 
