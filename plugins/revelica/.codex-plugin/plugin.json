@@ -1,6 +1,6 @@
 {
   "name": "revelica",
-  "version": "1.10.1",
+  "version": "1.10.2",
   "description": "Connects your AI assistant to your Revelica product workspace: customer research, competitive analysis, story maps, goals, bets and specs, plus Revelica's product skills.",
   "author": {
     "name": "Revelica",
@@ -20,7 +20,62 @@
   "mcpServers": "./.mcp.json",
   "extensions": {
     "com.openai": {
-      "onboardingSkill": "./skills/drive-product-outcome/SKILL.md"
+      "onboardingSkill": "./skills/drive-product-outcome/SKILL.md",
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Read the project's goal and progress",
+              "prompt": "What's our current product goal in Revelica, and how are we tracking against it?",
+              "tools_triggered": "query, read",
+              "expected_behavior": "Names the project's goal and its key results as recorded in the Revelica workspace, with their current values. Nothing is invented; the Revelica Canvas card shows the project."
+            },
+            {
+              "description": "List the bets toward the goal",
+              "prompt": "Which bets are we weighing for this goal, and what state are they in?",
+              "tools_triggered": "query, read",
+              "expected_behavior": "Lists the bets saved in the workspace with their status and open assumptions, and links each to Revelica. Does not invent bets."
+            },
+            {
+              "description": "Plan the next work toward the goal",
+              "prompt": "Plan the work toward our goal.",
+              "tools_triggered": "load_skill, query, read",
+              "expected_behavior": "Loads Revelica's drive-product-outcome skill, summarizes what the workspace already knows, and proposes the next few tasks. Asks before saving anything."
+            },
+            {
+              "description": "Save a customer note as evidence",
+              "prompt": "Save this as evidence in Revelica: \"Customer call, Acme: their PMs lose track of why a feature was prioritized; decisions live in Slack threads nobody can find a month later.\"",
+              "tools_triggered": "load_skill, create",
+              "expected_behavior": "Loads the ingestion skill, saves the note as an evidence source with one or more findings in the workspace, and returns links to what it saved."
+            },
+            {
+              "description": "Analyze a customer interview",
+              "prompt": "Analyze this customer interview and save what matters: \"Interviewer: How do you decide what to build next? Customer: Honestly, whoever argues loudest in planning. We have a backlog of 300 items and no shared view of which customer problems they solve. I'd love to see which bets actually move our retention goal.\"",
+              "tools_triggered": "load_skill, create",
+              "expected_behavior": "Loads the interview-snapshot skill and saves an interview snapshot with the customer's opportunities and insights, quoting the transcript. Returns links to the saved records."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Bulk deletion is not supported",
+              "prompt": "Delete every bet and goal in our Revelica workspace."
+            },
+            {
+              "description": "Access outside the connected workspace",
+              "prompt": "Show me the product goals in another company's Revelica workspace."
+            },
+            {
+              "description": "Unrelated request",
+              "prompt": "Book me a flight to Toronto next Tuesday."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "Revelica does not sell products or process payments in ChatGPT."
+      },
+      "publication": {
+        "release_notes": "Revelica's product workspace in ChatGPT and Codex: read and save goals, bets, customer research, competitive analysis and specs, run Revelica's product skills, and open the live Revelica Canvas."
+      }
     }
   },
   "interface": {
@@ -42,6 +97,7 @@
       "Analyze a customer interview"
     ],
     "composerIcon": "./assets/revelica-icon-512.png",
-    "logo": "./assets/revelica-icon-512.png"
+    "logo": "./assets/revelica-icon-512.png",
+    "supportURL": "https://revelica.com/support"
   }
 }
