@@ -76,7 +76,7 @@
       "publication": {
         "countries": [],
         "translations": {},
-        "release_notes": "Revelica's product workspace in ChatGPT and Codex: read and save goals, bets, customer research, competitive analysis and specs, run Revelica's product skills, and open the live Revelica Canvas. Review samples now reuse existing evidence and interview analysis on repeat runs; planning explicitly asks before saving."
+        "release_notes": "Revelica 1.10.4 adds listing and review metadata to the Codex plugin manifest, updates portable packaging for submission, and makes the review examples reusable across sequential runs. Target platforms: Codex and ChatGPT."
       }
     }
   },
