@@ -16,3 +16,7 @@ __MACOSX/
 
 # Built plugin archives
 dist/
+
+# Python packaging checks
+__pycache__/
+*.pyc

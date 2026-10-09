@@ -21,7 +21,7 @@ revelica/skills
 ├── .claude-plugin/marketplace.json   # Claude Code marketplace catalog
 ├── .agents/plugins/marketplace.json  # Codex marketplace catalog
 ├── server.json                  # MCP registry manifest (registry.modelcontextprotocol.io)
-├── scripts/package-openai.sh    # Builds the ZIP for OpenAI's plugin portal
+├── scripts/package-openai.sh    # Exports the portable ZIP for OpenAI's plugin portal
 ├── REVIEWING.md                 # Test setup for directory reviewers
 └── LICENSE                      # Apache-2.0
 ```
@@ -106,6 +106,27 @@ Product workflow instructions live on the Revelica server, so the app and connec
 Release 1.10.0 moved the plugin into `plugins/revelica/`, turned the commands into skills so every host can use them, and added the OpenAI manifest. Bump the version in every manifest together.
 
 Package updates and server deployments are separate. A newly documented server workflow must be deployed before a connected client can load it. Installing this package does not deploy server changes.
+
+Run `bash scripts/package-openai.sh` to build `dist/revelica-openai-<version>.zip`
+for OpenAI's submission portal. It exports the Codex manifest's listing fields
+under `extensions.com.openai.interface` in a portable root `plugin.json`, and
+exports `.mcp.json` as `mcp.json` with the Streamable HTTP transport name. Review
+cases and publication metadata are retained. The shared plugin's Claude and
+Codex compatibility manifests are not included in this public upload.
+Package validation does not complete the portal's reviewer access, demo,
+country targeting, scans, or attestations.
+
+The exporter refuses to overwrite an existing archive. For a verification build,
+choose a new path: `bash scripts/package-openai.sh --output /tmp/revelica-check.zip`.
+ZIP entry timestamps and permissions are fixed, so builds with the same
+Python/zlib toolchain produce identical bytes. Run the packaging checks with
+`python3 -m unittest discover -s scripts/tests -v`.
+
+Keep one private copy of the exact ZIP uploaded for review. `dist/` stays ignored.
+Reviewer account details, recordings and submission notes belong outside this
+public repository. The public manifest contains reusable test cases; supply
+submission-specific workspace instructions and recording metadata privately when
+preparing an upload. A fresh export is not a replacement for the original upload.
 
 The skills in `plugins/revelica/skills/` carry the name, description and starting prompt of the server skill with the same name (scryfast `revelica_agents/app/agents/revelica/skills/`). Keep them in step when those change.
 

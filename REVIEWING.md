@@ -1,18 +1,13 @@
 # Reviewing the Revelica plugin
 
-Setup for directory reviewers. The invite link is in the submission's review notes; it isn't published here because it joins a shared demo workspace.
-
-## Set up the test account
-
-1. Open the invite link from the review notes.
-2. Sign up with an email address and the one-time code sent to it.
-3. Fill in your profile. The invite adds you to the **Scryify** demo workspace, which has example goals, bets, customer segments, research and specs.
-4. For team, select **Product Team** and click **Save**.
-5. Click **Go to Knowledge Graph**.
+Use the test account, workspace and sign-in instructions supplied privately for
+the directory submission. Reviewer account details and recordings are not
+published in this repository.
 
 ## Connect the plugin
 
-Install the Revelica plugin in your client, or add the server as a custom connector:
+Install the submitted Revelica plugin in the intended client. To test the MCP
+server directly, add this custom connector:
 
 | | |
 |---|---|
@@ -20,16 +15,33 @@ Install the Revelica plugin in your client, or add the server as a custom connec
 | **Transport** | Streamable HTTP |
 | **Authentication** | OAuth 2.0 with dynamic client registration |
 
-Your client opens a Revelica consent screen. Click **Allow**.
+Complete Revelica sign-in and consent if prompted, using the supplied test
+account. Start a fresh conversation after disconnecting/reconnecting; old
+conversation cards can retain stale connection references.
 
-## Try it
+## Try the review cases
 
-Use the plugin's suggested prompts, or its skills:
+Reusable examples are in
+[`extensions.com.openai.review.test_cases`](plugins/revelica/.codex-plugin/plugin.json).
+For a directory review, follow the cases and workspace instructions included in
+that submission. Run the goal case before the bets case in the same conversation,
+or identify the test project first.
+
+The planning example proposes next steps and asks for separate approval before
+saving or changing anything. The synthetic note and interview examples use fixed
+titles and ask the agent to check existing records, reuse matching analysis, and
+create only what is missing. Repeat the identical prompt and compare returned
+links/IDs and persisted records. These instructions aim to support sequential
+reruns; they do not guarantee duplicate prevention during concurrent runs.
+
+Do not approve destructive actions while running the negative cases. They should
+not delete records, expose another company's private data or invoke Revelica
+tools to book travel. Ordinary clarification or a safe fallback is allowed.
+
+The plugin's starting skills are also available:
 
 - **Plan the work toward our goal** (`drive-product-outcome`)
 - **Add insights to our knowledge graph** (`ingestion`)
 - **Analyze a customer interview** (`interview-snapshot`)
-
-Each one reads from and writes to the Scryify workspace through the `query`, `read`, `create`, `update`, `load_skill` and `list_skills` tools. To see what the agent saved, browse the workspace in the web app, where you're still signed in (optional).
 
 Questions: ask@revelica.com.
