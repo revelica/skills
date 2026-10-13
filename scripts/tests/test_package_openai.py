@@ -120,6 +120,8 @@ class SourceVersionTest(unittest.TestCase):
         marketplace = json.loads((ROOT / ".claude-plugin/marketplace.json").read_text())
         self.assertEqual(codex["version"], claude["version"])
         self.assertEqual(codex["version"], marketplace["plugins"][0]["version"])
+        registry = json.loads((ROOT / "server.json").read_text())
+        self.assertEqual(codex["version"], registry["version"])
 
 
 if __name__ == "__main__":

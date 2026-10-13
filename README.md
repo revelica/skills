@@ -103,7 +103,8 @@ Loading a skill lets the current agent follow the workflow using the available t
 
 Product workflow instructions live on the Revelica server, so the app and connected agents discover the same canonical workflow. The package's three skills share the names and descriptions of the server skills they start, and load the full workflow from the server with `load_skill`, so the workflow and the workspace readiness it reports are always current. Release 1.9.0 removed the bundled `use-revelica` and `product-for-coding-agents` routers: every supported Claude host shows the server's instructions, which carry the same routing.
 
-Release 1.10.0 moved the plugin into `plugins/revelica/`, turned the commands into skills so every host can use them, and added the OpenAI manifest. Bump the version in every manifest together. Name releases `Revelica X.Y.Z` and
+Release 1.10.0 moved the plugin into `plugins/revelica/`, turned the commands into skills so every host can use them, and added the OpenAI manifest. Bump the version in every manifest together, including `server.json`, and the
+`SERVER_VERSION` constant the MCP server reports (`revelica_agents/app/mcp_server/server.py` in scryfast). Name releases `Revelica X.Y.Z` and
 list the targeted platforms in the release notes. Versions belong to Revelica
 across hosts; platform-specific changes share that version. For example, Revelica
 1.10.4 adds Codex plugin metadata and portable packaging for Codex and ChatGPT.
