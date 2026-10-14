@@ -1,0 +1,20 @@
+name: Package checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    name: Package contracts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Check shell syntax
+        run: bash -n scripts/package-openai.sh
+      - name: Check public package contracts
+        run: python3 -m unittest discover -s scripts/tests -v
