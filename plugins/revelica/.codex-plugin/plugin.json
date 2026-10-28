@@ -1,6 +1,6 @@
 {
   "name": "revelica",
-  "version": "1.10.4",
+  "version": "1.11.0",
   "description": "Connects your AI assistant to your Revelica product workspace: customer research, competitive analysis, story maps, goals, bets and specs, plus Revelica's product skills.",
   "author": {
     "name": "Revelica",
@@ -20,7 +20,7 @@
   "mcpServers": "./.mcp.json",
   "extensions": {
     "com.openai": {
-      "onboardingSkill": "./skills/drive-product-outcome/SKILL.md",
+      "onboardingSkill": "./skills/setup-revelica/SKILL.md",
       "review": {
         "test_cases": {
           "positive": [
@@ -76,7 +76,7 @@
       "publication": {
         "countries": [],
         "translations": {},
-        "release_notes": "Revelica 1.10.4 adds listing and review metadata to the Codex plugin manifest, updates portable packaging for submission, and makes the review examples reusable across sequential runs. Target platforms: Codex and ChatGPT."
+        "release_notes": "Revelica 1.11.0 adds the setup-revelica skill, which sets Revelica up with a new user on their own product, and makes it the onboarding skill ChatGPT runs from Set up Revelica after install. Target platforms: Claude, Codex and ChatGPT."
       }
     }
   },
