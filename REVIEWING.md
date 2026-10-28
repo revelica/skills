@@ -40,6 +40,7 @@ tools to book travel. Ordinary clarification or a safe fallback is allowed.
 
 The plugin's starting skills are also available:
 
+- **Set up Revelica** (`setup-revelica`)
 - **Plan the work toward our goal** (`drive-product-outcome`)
 - **Add insights to our knowledge graph** (`ingestion`)
 - **Analyze a customer interview** (`interview-snapshot`)
