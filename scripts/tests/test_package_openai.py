@@ -47,10 +47,11 @@ class PackageOpenAITest(unittest.TestCase):
                 "revelica/assets/revelica-icon-512.png",
                 "revelica/assets/revelica-icon-1024.png",
                 "revelica/assets/revelica-logo.svg",
-                "revelica/skills/drive-product-outcome/SKILL.md",
-                "revelica/skills/ingestion/SKILL.md",
-                "revelica/skills/interview-snapshot/SKILL.md",
-                "revelica/skills/setup-revelica/SKILL.md",
+            } | {
+                f"revelica/skills/{name}/SKILL.md" for name in (
+                    "setup-revelica", "drive-product-outcome", "business-strategy", "product-insights",
+                    "product-strategy", "discover-solutions", "test-product-risks", "implement-spec",
+                )
             })
             exported = json.loads(archive.read("revelica/plugin.json"))
             self.assertEqual(exported["version"], self.manifest["version"])
