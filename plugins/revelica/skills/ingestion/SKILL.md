@@ -1,6 +1,6 @@
 ---
 name: ingestion
-description: Ingest raw data from URLs, files, or user-provided text. Classifies content by domain, persists evidence sources and findings in Revelica, and recommends the next useful work without doing the deep work itself.
+description: "Ingest raw data from URLs, files, or user-provided text. Classifies content by domain, saves evidence sources and findings linked to the records they bear on, and names the next case worth running, without doing the deep work itself."
 ---
 
 Save a URL, file, or note as product evidence and choose the next useful work.
