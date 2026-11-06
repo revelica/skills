@@ -4,7 +4,7 @@
 
 <h1 align="center">Revelica Skills</h1>
 
-Revelica's plugin package connects an agent to shared product context: customer research, competitive analysis, goals, bets and product specs. It declares the Revelica MCP server, a setup skill and three starting skills. The full workflows live on the server, which names the one for each job in its instructions and loads it with `load_skill`.
+Revelica's plugin package connects an agent to shared product context: customer research, competitive analysis, goals, bets and product specs. It declares the Revelica MCP server and one skill for each job Revelica does. The full workflows live on the server, which names the one for each job in its instructions and loads it with `load_skill`.
 
 There is one plugin, `plugins/revelica/`, with a manifest for each host beside it. Each host's catalog sits at the repository root, where that host looks for it. Installation and OAuth support depend on the client.
 
@@ -57,14 +57,20 @@ Cursor, Gemini CLI and any other client that speaks Streamable HTTP with OAuth c
 
 ## Starting prompts
 
-The plugin adds a setup skill and three starting skills, the same starting points the Revelica app offers. In Claude Code each is also a slash command:
+The plugin adds one skill for each job Revelica does, the same jobs the Revelica app runs. Each one is a short stand-in that loads the full skill from the Revelica server, so the method is always current. In Claude Code each is also a slash command:
 
 | Skill | What it does |
 |---|---|
 | `/revelica:setup-revelica` | Set up Revelica on your own product: your business, a goal and a researched customer, then a first result and a handover to planning. ChatGPT runs it from its **Set up** prompt after install; in Claude, ask to "set up Revelica". |
-| `/revelica:drive-product-outcome` | Plan the work toward our goal: read the goal, its measurements, the active bets and their evidence, then recommend the next action and plan it as work. Sets up anything the workspace is missing along the way. |
-| `/revelica:ingestion` | Add insights to the knowledge graph: save a URL, file or note as product evidence, then choose the next useful work. |
-| `/revelica:interview-snapshot` | Analyze a customer interview: turn a transcript into a snapshot and the customer problems worth solving. |
+| `/revelica:drive-product-outcome` | Plan the work toward our goal: read the goal, its measurements, the active bets and their evidence, then recommend the next action and plan it as work. The default when you're not sure which skill fits. |
+| `/revelica:business-strategy` | Set or rethink the business strategy: target customers, business model, a value proposition for each customer, and the goals that matter now. |
+| `/revelica:product-insights` | Find where you can win: research the customer and the products they use today. Also saves a link, file, note or interview as evidence and connects it to what it bears on. |
+| `/revelica:product-strategy` | Decide which bets to make and which to decline, say why, and say what evidence would change the call. |
+| `/revelica:discover-solutions` | Find a solution customers will love that works for the business, and write the leading one as a spec with a story map. |
+| `/revelica:test-product-risks` | Find the riskiest assumptions in a bet or spec and test each with the quickest method that settles it, then make the call. |
+| `/revelica:implement-spec` | Build a feature from its spec, stories and decisions, and write back what you learn. |
+
+Older skill names such as `ingestion`, `interview-snapshot` and `frame-bet` still work with `load_skill`: the server routes each to the job that now holds it.
 
 ## What the plugin connects to and sends
 

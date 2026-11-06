@@ -42,7 +42,11 @@ The plugin's starting skills are also available:
 
 - **Set up Revelica** (`setup-revelica`)
 - **Plan the work toward our goal** (`drive-product-outcome`)
-- **Add insights to our knowledge graph** (`ingestion`)
-- **Analyze a customer interview** (`interview-snapshot`)
+- **Set our business strategy** (`business-strategy`)
+- **Find where you can win** (`product-insights`)
+- **Decide which bets to make** (`product-strategy`)
+- **Discover solutions** (`discover-solutions`)
+- **Test the risks before you build** (`test-product-risks`)
+- **Build a feature from its spec** (`implement-spec`)
 
 Questions: ask@revelica.com.
