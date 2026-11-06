@@ -62,7 +62,7 @@ The plugin adds one skill for each job Revelica does, the same jobs the Revelica
 | Skill | What it does |
 |---|---|
 | `/revelica:setup-revelica` | Set up Revelica on your own product: your business, a goal and a researched customer, then a first result and a handover to planning. ChatGPT runs it from its **Set up** prompt after install; in Claude, ask to "set up Revelica". |
-| `/revelica:drive-product-outcome` | Plan the work toward our goal: read the goal, its measurements, the active bets and their evidence, then recommend the next action and plan it as work. The default when you're not sure which skill fits. |
+| `/revelica:drive-product-outcome` | Plan the work toward our goal: read the goal, its measurements, the active bets and their evidence, then recommend the next action and plan it as work. Use it for a new goal, or work that needs several jobs in sequence. |
 | `/revelica:business-strategy` | Set or rethink the business strategy: target customers, business model, a value proposition for each customer, and the goals that matter now. |
 | `/revelica:product-insights` | Find where you can win: research the customer and the products they use today. Also saves a link, file, note or interview as evidence and connects it to what it bears on. |
 | `/revelica:product-strategy` | Decide which bets to make and which to decline, say why, and say what evidence would change the call. |

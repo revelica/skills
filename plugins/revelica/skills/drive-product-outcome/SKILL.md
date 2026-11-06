@@ -1,6 +1,6 @@
 ---
 name: drive-product-outcome
-description: "Act like a product manager who does whatever is next to drive an outcome. Looks at where things stand against the goal, picks the job that moves it most (research, strategy, discovery, testing, building), plans the work as tasks and keeps it moving. Use when asking what to do next, reviewing progress, planning a sprint or a roadmap, juggling several bets, when a request spans more than one job (ship this and learn that), or when you're not sure which skill fits. Takes the situation in plain words and proposes the goal, so nobody has to arrive with an OKR."
+description: "Plans a project around its goal. Takes stock against the goal, chooses the next jobs (research, strategy, discovery, testing), lays them out as tasks in order, offers the next one to start and reconciles what finished. Use when a new goal is set, when reaching a goal takes several jobs in sequence (research, then framing bets, then specs and tests), when asking what's next on a project or how it's tracking, or to review the plan after work finishes. For one job, load that job's skill instead. Works from the situation in plain words and proposes the goal, so nobody has to arrive with an OKR."
 ---
 
 Help me plan the work toward our project goal. Read the goal, its latest measurements, our active bets and the evidence behind them, then recommend the next action and record it as durable work.
