@@ -38,9 +38,9 @@
             },
             {
               "description": "Plan the next work toward the goal",
-              "prompt": "Plan the work toward our goal in the designated test workspace. Propose the next steps only; ask me before saving or changing anything.",
-              "tools_triggered": "load_skill, query, read",
-              "expected_behavior": "Loads drive-product-outcome, reads the demo project goal, bets and evidence, and proposes grounded next tasks. Does not create or update any records without a separate approval; repeating the prompt requires no reset."
+              "prompt": "Plan the work toward our goal in the designated test workspace, and save the plan there.",
+              "tools_triggered": "load_skill, query, read; create and update for the planned tasks",
+              "expected_behavior": "Loads drive-product-outcome, reads the demo project goal, bets and evidence, saves the next tasks as a plan in the test workspace and offers one to start. Repeating the prompt reuses the same tasks instead of duplicating them. No writes outside the demo workspace."
             },
             {
               "description": "Save a synthetic customer note in the designated test workspace, reusing the same source and findings on repeat runs. Run the identical prompt twice and compare returned IDs and persisted records.",
