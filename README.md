@@ -108,15 +108,15 @@ Loading a skill lets the current agent follow the workflow using the available t
 
 ## Updating
 
-Product workflow instructions live on the Revelica server, so the app and connected agents discover the same canonical workflow. The package's four skills share the names and descriptions of the server skills they start, and load the full workflow from the server with `load_skill`, so the workflow and the workspace readiness it reports are always current. Release 1.9.0 removed the bundled `use-revelica` and `product-for-coding-agents` routers: every supported Claude host shows the server's instructions, which carry the same routing.
+Almost everything changes on the server, not here. Skill instructions (`load_skill`), tool descriptions and schemas, and the server instructions all live on the Revelica server, so a server deploy updates every host at once. OpenAI's continuous review picks up server changes from its daily scan (or a Rescan in the portal) without a new plugin version; a changed tool keeps its old definition live until the new one passes automated checks, so keep the server accepting calls in the old shape.
 
-Release 1.10.0 moved the plugin into `plugins/revelica/`, turned the commands into skills so every host can use them, and added the OpenAI manifest. Bump the version in every manifest together, including `server.json`, and the
-`SERVER_VERSION` constant the MCP server reports (`packages/mcp/revelica_mcp/server.py` in the revelica monorepo). Name releases `Revelica X.Y.Z` and
-list the targeted platforms in the release notes. Versions belong to Revelica
-across hosts; platform-specific changes share that version. For example, Revelica
-1.10.4 adds Codex plugin metadata and portable packaging for Codex and ChatGPT.
+This package is what needs a release, and an OpenAI release means a new ZIP and a new review by people. So it is kept small and stable:
 
-Package updates and server deployments are separate. A newly documented server workflow must be deployed before a connected client can load it. Installing this package does not deploy server changes.
+- **Stand-in skills are frozen.** Each `SKILL.md` is a name, a description and a first prompt, plus the instruction to call `load_skill`. Tune routing and wording on the server (its instructions and the skills themselves, measured with the evals in the monorepo), not here. Change a stand-in only on purpose, as part of a package release: adding or removing a job skill, or a description that measurably routes better.
+- **The package has its own version.** Bump the version in the three package manifests together (`plugins/revelica/.claude-plugin/plugin.json`, `plugins/revelica/.codex-plugin/plugin.json`, `.claude-plugin/marketplace.json`) only when the package's contents change. `server.json`, the MCP registry entry, follows the server's `SERVER_VERSION` (`packages/mcp/revelica_mcp/server.py` in the revelica monorepo) and is updated with server releases.
+- **Review cases describe behaviour.** OpenAI's review test cases say what the agent should do and save, never which skill runs it, so regrouping server skills doesn't invalidate them (`scripts/tests` checks this).
+
+Name package releases `Revelica X.Y.Z` and list the targeted platforms in the release notes. A package release that depends on new server behaviour ships after that server is deployed: installing the package doesn't deploy the server.
 
 Run `bash scripts/package-openai.sh` to build `dist/revelica-openai-<version>.zip`
 for OpenAI's submission portal. It exports the Codex manifest's listing fields
