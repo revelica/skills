@@ -47,10 +47,11 @@ class PackageOpenAITest(unittest.TestCase):
                 "revelica/assets/revelica-icon-512.png",
                 "revelica/assets/revelica-icon-1024.png",
                 "revelica/assets/revelica-logo.svg",
-                "revelica/skills/drive-product-outcome/SKILL.md",
-                "revelica/skills/ingestion/SKILL.md",
-                "revelica/skills/interview-snapshot/SKILL.md",
-                "revelica/skills/setup-revelica/SKILL.md",
+            } | {
+                f"revelica/skills/{name}/SKILL.md" for name in (
+                    "setup-revelica", "drive-product-outcome", "business-strategy", "product-insights",
+                    "product-strategy", "discover-solutions", "test-product-risks", "implement-spec",
+                )
             })
             exported = json.loads(archive.read("revelica/plugin.json"))
             self.assertEqual(exported["version"], self.manifest["version"])
@@ -115,14 +116,29 @@ class PackageOpenAITest(unittest.TestCase):
 
 class SourceVersionTest(unittest.TestCase):
     def test_host_manifests_and_marketplace_use_the_same_version(self):
+        """The package has one version across hosts. `server.json` is the MCP registry
+        entry: it follows the server's SERVER_VERSION, not the package."""
         plugin = ROOT / "plugins/revelica"
         codex = json.loads((plugin / ".codex-plugin/plugin.json").read_text())
         claude = json.loads((plugin / ".claude-plugin/plugin.json").read_text())
         marketplace = json.loads((ROOT / ".claude-plugin/marketplace.json").read_text())
         self.assertEqual(codex["version"], claude["version"])
         self.assertEqual(codex["version"], marketplace["plugins"][0]["version"])
-        registry = json.loads((ROOT / "server.json").read_text())
-        self.assertEqual(codex["version"], registry["version"])
+
+
+class ReviewCaseTest(unittest.TestCase):
+    def test_review_cases_name_no_skill(self):
+        """Review cases describe behaviour, not which skill runs it: renaming or
+        regrouping a server skill must not force a new OpenAI submission."""
+        plugin = ROOT / "plugins/revelica"
+        codex = json.loads((plugin / ".codex-plugin/plugin.json").read_text())
+        skills = {p.parent.name for p in (plugin / "skills").glob("*/SKILL.md")}
+        skills |= {"ingestion", "interview-snapshot", "frame-bet"}
+        review = codex["extensions"]["com.openai"]["review"]["test_cases"]
+        for case in review["positive"] + review["negative"]:
+            text = json.dumps(case)
+            for name in skills:
+                self.assertNotIn(name, text, f"{case['description'][:40]} names {name}")
 
 
 if __name__ == "__main__":

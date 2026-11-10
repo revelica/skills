@@ -4,7 +4,7 @@
 
 <h1 align="center">Revelica Skills</h1>
 
-Revelica's plugin package connects an agent to shared product context: customer research, competitive analysis, goals, bets and product specs. It declares the Revelica MCP server, a setup skill and three starting skills. The full workflows live on the server, which names the one for each job in its instructions and loads it with `load_skill`.
+Revelica's plugin package connects an agent to shared product context: customer research, competitive analysis, goals, bets and product specs. It declares the Revelica MCP server and one skill for each job Revelica does. The full workflows live on the server, which names the one for each job in its instructions and loads it with `load_skill`.
 
 There is one plugin, `plugins/revelica/`, with a manifest for each host beside it. Each host's catalog sits at the repository root, where that host looks for it. Installation and OAuth support depend on the client.
 
@@ -57,14 +57,20 @@ Cursor, Gemini CLI and any other client that speaks Streamable HTTP with OAuth c
 
 ## Starting prompts
 
-The plugin adds a setup skill and three starting skills, the same starting points the Revelica app offers. In Claude Code each is also a slash command:
+The plugin adds one skill for each job Revelica does, the same jobs the Revelica app runs. Each one is a short stand-in that loads the full skill from the Revelica server, so the method is always current. In Claude Code each is also a slash command:
 
 | Skill | What it does |
 |---|---|
 | `/revelica:setup-revelica` | Set up Revelica on your own product: your business, a goal and a researched customer, then a first result and a handover to planning. ChatGPT runs it from its **Set up** prompt after install; in Claude, ask to "set up Revelica". |
-| `/revelica:drive-product-outcome` | Plan the work toward our goal: read the goal, its measurements, the active bets and their evidence, then recommend the next action and plan it as work. Sets up anything the workspace is missing along the way. |
-| `/revelica:ingestion` | Add insights to the knowledge graph: save a URL, file or note as product evidence, then choose the next useful work. |
-| `/revelica:interview-snapshot` | Analyze a customer interview: turn a transcript into a snapshot and the customer problems worth solving. |
+| `/revelica:drive-product-outcome` | Plan the work toward our goal: read the goal, its measurements, the active bets and their evidence, then recommend the next action and plan it as work. Use it for a new goal, or work that needs several jobs in sequence. |
+| `/revelica:business-strategy` | Set or rethink the business strategy: target customers, business model, a value proposition for each customer, and the goals that matter now. |
+| `/revelica:product-insights` | Find where you can win: research the customer and the products they use today. Also saves a link, file, note or interview as evidence and connects it to what it bears on. |
+| `/revelica:product-strategy` | Decide which bets to make and which to decline, say why, and say what evidence would change the call. |
+| `/revelica:discover-solutions` | Find a solution customers will love that works for the business, and write the leading one as a spec with a story map. |
+| `/revelica:test-product-risks` | Find the riskiest assumptions in a bet or spec and test each with the quickest method that settles it, then make the call. |
+| `/revelica:implement-spec` | Build a feature from its spec, stories and decisions, and write back what you learn. |
+
+Older skill names such as `ingestion`, `interview-snapshot` and `frame-bet` still work with `load_skill`: the server routes each to the job that now holds it.
 
 ## What the plugin connects to and sends
 
@@ -102,15 +108,15 @@ Loading a skill lets the current agent follow the workflow using the available t
 
 ## Updating
 
-Product workflow instructions live on the Revelica server, so the app and connected agents discover the same canonical workflow. The package's four skills share the names and descriptions of the server skills they start, and load the full workflow from the server with `load_skill`, so the workflow and the workspace readiness it reports are always current. Release 1.9.0 removed the bundled `use-revelica` and `product-for-coding-agents` routers: every supported Claude host shows the server's instructions, which carry the same routing.
+Almost everything changes on the server, not here. Skill instructions (`load_skill`), tool descriptions and schemas, and the server instructions all live on the Revelica server, so a server deploy updates every host at once. OpenAI's continuous review picks up server changes from its daily scan (or a Rescan in the portal) without a new plugin version; a changed tool keeps its old definition live until the new one passes automated checks, so keep the server accepting calls in the old shape.
 
-Release 1.10.0 moved the plugin into `plugins/revelica/`, turned the commands into skills so every host can use them, and added the OpenAI manifest. Bump the version in every manifest together, including `server.json`, and the
-`SERVER_VERSION` constant the MCP server reports (`revelica_agents/app/mcp_server/server.py` in scryfast). Name releases `Revelica X.Y.Z` and
-list the targeted platforms in the release notes. Versions belong to Revelica
-across hosts; platform-specific changes share that version. For example, Revelica
-1.10.4 adds Codex plugin metadata and portable packaging for Codex and ChatGPT.
+This package is what needs a release, and an OpenAI release means a new ZIP and a new review by people. So it is kept small and stable:
 
-Package updates and server deployments are separate. A newly documented server workflow must be deployed before a connected client can load it. Installing this package does not deploy server changes.
+- **Stand-in skills are frozen.** Each `SKILL.md` is a name, a description and a first prompt, plus the instruction to call `load_skill`. Tune routing and wording on the server (its instructions and the skills themselves, measured with the evals in the monorepo), not here. Change a stand-in only on purpose, as part of a package release: adding or removing a job skill, or a description that measurably routes better.
+- **The package has its own version.** Bump the version in the three package manifests together (`plugins/revelica/.claude-plugin/plugin.json`, `plugins/revelica/.codex-plugin/plugin.json`, `.claude-plugin/marketplace.json`) only when the package's contents change. `server.json`, the MCP registry entry, follows the server's `SERVER_VERSION` (`packages/mcp/revelica_mcp/server.py` in the revelica monorepo) and is updated with server releases.
+- **Review cases describe behaviour.** OpenAI's review test cases say what the agent should do and save, never which skill runs it, so regrouping server skills doesn't invalidate them (`scripts/tests` checks this).
+
+Name package releases `Revelica X.Y.Z` and list the targeted platforms in the release notes. A package release that depends on new server behaviour ships after that server is deployed: installing the package doesn't deploy the server.
 
 Run `bash scripts/package-openai.sh` to build `dist/revelica-openai-<version>.zip`
 for OpenAI's submission portal. It exports the Codex manifest's listing fields

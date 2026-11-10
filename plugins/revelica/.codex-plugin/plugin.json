@@ -1,6 +1,6 @@
 {
   "name": "revelica",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "description": "Connects your AI assistant to your Revelica product workspace: customer research, competitive analysis, story maps, goals, bets and specs, plus Revelica's product skills.",
   "author": {
     "name": "Revelica",
@@ -38,21 +38,21 @@
             },
             {
               "description": "Plan the next work toward the goal",
-              "prompt": "Plan the work toward our goal in the designated test workspace. Propose the next steps only; ask me before saving or changing anything.",
-              "tools_triggered": "load_skill, query, read",
-              "expected_behavior": "Loads drive-product-outcome, reads the demo project goal, bets and evidence, and proposes grounded next tasks. Does not create or update any records without a separate approval; repeating the prompt requires no reset."
+              "prompt": "Plan the work toward our goal in the designated test workspace, and save the plan there.",
+              "tools_triggered": "load_skill, query, read; create and update for the planned tasks",
+              "expected_behavior": "Loads the planning skill, reads the demo project goal, bets and evidence, saves the next tasks as a plan in the test workspace and offers one to start. Repeating the prompt reuses the same tasks instead of duplicating them. No writes outside the demo workspace."
             },
             {
               "description": "Save a synthetic customer note in the designated test workspace, reusing the same source and findings on repeat runs. Run the identical prompt twice and compare returned IDs and persisted records.",
               "prompt": "Save this synthetic customer note as evidence in the designated test workspace, titled \"OpenAI review sample: Acme prioritization note\": \"Customer call, Acme: their PMs lose track of why a feature was prioritized; decisions live in Slack threads nobody can find a month later.\" First check whether this exact titled note and its findings are already saved. Reuse matching records and return their links; create only what is missing. Do not duplicate evidence, findings or links, and do not change unrelated records.",
-              "tools_triggered": "load_skill (ingestion), query, read; create only for missing records",
-              "expected_behavior": "Verifies the designated test workspace, loads ingestion, queries for the exact sample title, and reads any match before writing. First run saves one source with the supplied text and at least one grounded finding, returning saved record links. Repeat run returns the same source and finding IDs with no duplicate records, duplicate links or unnecessary new versions. No writes outside the demo workspace."
+              "tools_triggered": "load_skill, query, read; create only for missing records",
+              "expected_behavior": "Verifies the designated test workspace, loads a Revelica skill for saving evidence, queries for the exact sample title, and reads any match before writing. First run saves one source with the supplied text and at least one grounded finding, returning saved record links. Repeat run returns the same source and finding IDs with no duplicate records, duplicate links or unnecessary new versions. No writes outside the demo workspace."
             },
             {
               "description": "Analyze a synthetic interview in the designated test workspace, reusing its source, snapshot and derived records on repeat runs. Run the identical prompt twice and compare returned IDs and persisted records.",
               "prompt": "Analyze this synthetic customer interview and save what matters in the designated test workspace, titled \"OpenAI review sample: planning interview\": \"Interviewer: How do you decide what to build next? Customer: Honestly, whoever argues loudest in planning. We have a backlog of 300 items and no shared view of which customer problems they solve. I'd love to see which bets actually move our retention goal.\" First check for this exact titled interview and its saved analysis. Reuse matching source, snapshot, opportunities and insights; create only what is missing. Do not duplicate records or links. Return links to the saved analysis, quote the transcript, and do not treat the customer's retention goal as our project goal.",
-              "tools_triggered": "load_skill (interview-snapshot), query, read; create only for missing records",
-              "expected_behavior": "Verifies the test workspace, loads interview-snapshot, and checks existing records. First run saves a source and one interview snapshot with grounded opportunities and insights quoting the transcript, with links to saved records. Repeat run returns the same source, snapshot and derived record IDs without duplicate records, duplicate links or unnecessary new versions. Does not invent interview details or alter the actual project goal."
+              "tools_triggered": "load_skill, query, read; create only for missing records",
+              "expected_behavior": "Verifies the test workspace, loads a Revelica skill for interview analysis, and checks existing records. First run saves a source and one interview snapshot with grounded opportunities and insights quoting the transcript, with links to saved records. Repeat run returns the same source, snapshot and derived record IDs without duplicate records, duplicate links or unnecessary new versions. Does not invent interview details or alter the actual project goal."
             }
           ],
           "negative": [
@@ -76,14 +76,14 @@
       "publication": {
         "countries": [],
         "translations": {},
-        "release_notes": "Revelica 1.11.0 adds the setup-revelica skill, which sets Revelica up with a new user on their own product, and makes it the onboarding skill ChatGPT runs from Set up Revelica after install. Target platforms: Claude, Codex and ChatGPT."
+        "release_notes": "Revelica 1.12.0 organizes its skills by the job you want done: set up Revelica, plan the work toward a goal, set the business strategy, find where you can win, decide which bets to make, discover solutions, test the risks before you build, and build a feature from its spec. Each skill loads its full method from the Revelica server. Target platforms: Claude, Codex and ChatGPT."
       }
     }
   },
   "interface": {
     "displayName": "Revelica",
     "shortDescription": "Your team's product context",
-    "longDescription": "Revelica is your team's shared product workspace. Connect it to read and save customer research, competitive analysis, goals, bets, story maps and specs, so every conversation starts from what your team already knows. Plan the work toward a goal, turn a customer interview into the problems worth solving, or save a link or note as evidence. Requires a Revelica account.",
+    "longDescription": "Revelica is your team's shared product workspace. Connect it to read and save customer research, competitive analysis, goals, bets, story maps and specs, so every conversation starts from what your team already knows. Plan the work toward a goal, find where you can win, test the risks in a bet before you build, or save an interview, link or note as evidence. Requires a Revelica account.",
     "developerName": "Revelica",
     "category": "Productivity",
     "capabilities": [
@@ -95,8 +95,8 @@
     "termsOfServiceURL": "https://revelica.com/terms",
     "defaultPrompt": [
       "Plan the work toward our goal",
-      "Add insights to our knowledge graph",
-      "Analyze a customer interview"
+      "Find where you can win",
+      "Test the risks before you build"
     ],
     "composerIcon": "./assets/revelica-icon-512.png",
     "logo": "./assets/revelica-icon-512.png",
