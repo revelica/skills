@@ -46,7 +46,6 @@ class PackageOpenAITest(unittest.TestCase):
                 "revelica/plugin.json", "revelica/mcp.json",
                 "revelica/assets/revelica-icon-512.png",
                 "revelica/assets/revelica-icon-1024.png",
-                "revelica/assets/revelica-logo.svg",
             } | {
                 f"revelica/skills/{name}/SKILL.md" for name in (
                     "setup-revelica", "drive-product-outcome", "business-strategy", "product-insights",

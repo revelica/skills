@@ -1,6 +1,6 @@
 {
   "name": "revelica",
-  "version": "1.12.0",
+  "version": "1.12.1",
   "description": "Connects your AI assistant to your Revelica product workspace: customer research, competitive analysis, story maps, goals, bets and specs, plus Revelica's product skills.",
   "author": {
     "name": "Revelica",
@@ -76,7 +76,7 @@
       "publication": {
         "countries": [],
         "translations": {},
-        "release_notes": "Revelica 1.12.0 organizes its skills by the job you want done: set up Revelica, plan the work toward a goal, set the business strategy, find where you can win, decide which bets to make, discover solutions, test the risks before you build, and build a feature from its spec. Each skill loads its full method from the Revelica server. Target platforms: Claude, Codex and ChatGPT."
+        "release_notes": "Revelica 1.12.1 organizes its skills by the job you want done: set up Revelica, plan the work toward a goal, set the business strategy, find where you can win, decide which bets to make, discover solutions, test the risks before you build, and build a feature from its spec. Each skill loads its full method from the Revelica server. Target platforms: Claude, Codex and ChatGPT."
       }
     }
   },
