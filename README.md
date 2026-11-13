@@ -13,7 +13,7 @@ There is one plugin, `plugins/revelica/`, with a manifest for each host beside i
 ```
 revelica/skills
 ├── plugins/revelica/            # The plugin, shared by every host
-│   ├── .claude-plugin/          # Claude plugin manifest and icon
+│   ├── .claude-plugin/          # Claude plugin manifest
 │   ├── .codex-plugin/           # OpenAI (ChatGPT and Codex) plugin manifest
 │   ├── .mcp.json                # The Revelica MCP server
 │   ├── skills/                  # Starting skills (also slash commands in Claude Code)
