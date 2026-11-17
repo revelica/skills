@@ -1,6 +1,7 @@
 ---
 name: business-strategy
-description: "Constrain the playing field: the product vision, mission and principles, the target customers, the business model (revenue and costs), a value proposition for each target customer, how you compete and your unfair advantage, and the goals that matter now. Use when setting direction or when it changes, when weighing a pivot or a second kind of customer (a new market, a paid project in a new category, a marketplace with two sides: one value proposition each, researched separately), or when there's something to deliver or learn that should become goals. Works from plain words and proposes the value proposition and goals for you to confirm. Every other skill reads what it sets."
+description: "Defines vision, business model, value propositions and goals. Use when setting or changing course. Also use when weighing a pivot or a second kind of customer (a new market, a two-sided marketplace: one value proposition each), or when something to deliver or learn should become goals. Proposes the value proposition and goals for the user to confirm. Other skills read what it sets."
+compatibility: "Requires the Revelica MCP server, connected and signed in, and a Revelica workspace. Revelica doesn't work until setup-revelica has run: it's a mandatory part of workspace onboarding."
 ---
 
 Set or rethink our business strategy with me. Start from what we're trying to achieve, in plain words, and propose the value proposition and goals for me to confirm.

@@ -1,6 +1,7 @@
 ---
 name: setup-revelica
-description: "Start here on a new or nearly empty workspace, or when someone is starting something new. Figures out which of three situations you're in: building a new product (the business model is still open and can pivot quickly), innovating on an existing product, or optimizing an existing product, and sets up the strategic context each needs: the business, the goal in plain words, and the target customer. Then delivers one useful result matched to how you want to start, and hands over to drive-product-outcome. Use when you've just connected Revelica, are starting a new product or venture, or the workspace has no business, goal or researched customer yet."
+description: "Sets up the business model, customer profile and team goals. Required: nothing works until it runs. Use right after installing Revelica: it's a mandatory part of workspace onboarding. Asks whether the user wants to set up their workspace for product work."
+compatibility: "Requires the Revelica MCP server, connected and signed in, and a Revelica workspace. Revelica doesn't work until setup-revelica has run: it's a mandatory part of workspace onboarding."
 ---
 
 I'm new to Revelica. Set it up with me on my own product, starting from what I'm trying to achieve.
