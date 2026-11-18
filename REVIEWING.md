@@ -1,13 +1,10 @@
 # Reviewing the Revelica plugin
 
-Use the test account, workspace and sign-in instructions supplied privately for
-the directory submission. Reviewer account details and recordings are not
-published in this repository.
+The test account, workspace, sign-in details and review cases are supplied privately with each directory submission.
 
-## Connect the plugin
+## Connect
 
-Install the submitted Revelica plugin in the intended client. To test the MCP
-server directly, add this custom connector:
+Install the submitted plugin in the intended client, or add the server as a custom connector:
 
 | | |
 |---|---|
@@ -15,38 +12,13 @@ server directly, add this custom connector:
 | **Transport** | Streamable HTTP |
 | **Authentication** | OAuth 2.0 with dynamic client registration |
 
-Complete Revelica sign-in and consent if prompted, using the supplied test
-account. Start a fresh conversation after disconnecting/reconnecting; old
-conversation cards can retain stale connection references.
+Sign in with the supplied test account. After disconnecting and reconnecting, start a new conversation: old ones can keep a stale connection.
 
-## Try the review cases
+## Notes for the review cases
 
-Reusable examples are in
-[`extensions.com.openai.review.test_cases`](plugins/revelica/.codex-plugin/plugin.json).
-For a directory review, follow the cases and workspace instructions included in
-that submission. Run the goal case before the bets case in the same conversation,
-or identify the test project first.
+- Run the goal case before the bets case in the same conversation, or name the test project first.
+- Planning proposes next steps and asks before saving anything.
+- The note and interview cases use fixed titles and reuse existing records, so repeating a prompt shouldn't create duplicates. Run them one after another, not at the same time.
+- In the negative cases, don't approve destructive actions. The agent shouldn't delete records, show another company's data, or use Revelica for unrelated tasks.
 
-The planning example proposes next steps and asks for separate approval before
-saving or changing anything. The synthetic note and interview examples use fixed
-titles and ask the agent to check existing records, reuse matching analysis, and
-create only what is missing. Repeat the identical prompt and compare returned
-links/IDs and persisted records. These instructions aim to support sequential
-reruns; they do not guarantee duplicate prevention during concurrent runs.
-
-Do not approve destructive actions while running the negative cases. They should
-not delete records, expose another company's private data or invoke Revelica
-tools to book travel. Ordinary clarification or a safe fallback is allowed.
-
-The plugin's starting skills are also available:
-
-- **Set up Revelica** (`setup-revelica`)
-- **Plan the work toward our goal** (`drive-product-outcome`)
-- **Set our business strategy** (`business-strategy`)
-- **Find where you can win** (`product-insights`)
-- **Decide which bets to make** (`product-strategy`)
-- **Discover solutions** (`discover-solutions`)
-- **Test the risks before you build** (`test-product-risks`)
-- **Build a feature from its spec** (`implement-spec`)
-
-Questions: ask@revelica.com.
+Questions: ask@revelica.com
