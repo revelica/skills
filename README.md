@@ -28,6 +28,10 @@ revelica/skills
 
 ## Installation by Platform
 
+### Claude
+
+Add Revelica from [Claude's directory](https://claude.ai/directory/revelica), or search for it under [Customize → Plugins](https://claude.ai/customize/plugins). Then open the plugin's **Connectors** tab and connect Revelica. A plugin added in Claude also shows up in Claude Code. Without the directory, add `https://api.revelica.com/mcp` as a custom connector under **Customize → Connectors**.
+
 ### Claude Code
 
 ```
@@ -37,19 +41,18 @@ revelica/skills
 
 The plugin bundles the starting skills and the MCP server configuration. Authorize the server connection in your client before using workspace tools.
 
-### Cowork
+### ChatGPT
 
-Add `https://api.revelica.com/mcp` as a custom connector in your organization's
-settings. The server's instructions name the skill for each job, and `list_skills` lists the rest.
+Add Revelica from [ChatGPT's plugin directory](https://chatgpt.com/plugins/plugin_asdk_app_6abed1e3bde08191bb5676d2a115c308).
 
 ### Codex
+
+Codex shares ChatGPT's plugin directory. In the Codex CLI:
 
 ```
 codex plugin marketplace add revelica/skills
 codex plugin add revelica@revelica
 ```
-
-In ChatGPT, install Revelica from the plugin directory once it is listed.
 
 ### Other clients
 
