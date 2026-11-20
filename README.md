@@ -10,6 +10,8 @@ It adds two things to your agent: the Revelica MCP server, and a skill for each 
 
 ## Install
 
+**Claude:** add Revelica from [Claude's directory](https://claude.ai/directory/revelica), or search for it under [Customize → Plugins](https://claude.ai/customize/plugins). Then open the plugin's **Connectors** tab and connect Revelica. A plugin added in Claude also shows up in Claude Code.
+
 **Claude Code**
 
 ```
@@ -17,14 +19,14 @@ It adds two things to your agent: the Revelica MCP server, and a skill for each 
 /plugin install revelica@revelica
 ```
 
-**ChatGPT and Codex:** install Revelica from the plugin directory. In the Codex CLI:
+**ChatGPT and Codex:** add Revelica from [ChatGPT's plugin directory](https://chatgpt.com/plugins/plugin_asdk_app_6abed1e3bde08191bb5676d2a115c308), which Codex shares. In the Codex CLI:
 
 ```
 codex plugin marketplace add revelica/skills
 codex plugin add revelica@revelica
 ```
 
-**Claude.ai, Cowork, Cursor, Gemini and other MCP clients:** add the server as a custom connector:
+**Cursor, Gemini CLI and other MCP clients** (or Claude without the directory): add the server as a custom connector:
 
 | | |
 |---|---|
