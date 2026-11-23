@@ -10,23 +10,11 @@ It adds two things to your agent: the Revelica MCP server, and a skill for each 
 
 ## Install
 
-**Claude:** add Revelica from [Claude's directory](https://claude.ai/directory/revelica), or search for it under [Customize → Plugins](https://claude.ai/customize/plugins). Then open the plugin's **Connectors** tab and connect Revelica. A plugin added in Claude also shows up in Claude Code.
+**Claude and Claude Code:** connect Revelica from [Claude's directory](https://claude.ai/directory/revelica). Claude Code picks it up when you're signed in with the same Claude account. [Setup guide](https://revelica.com/docs/integrations/claude).
 
-**Claude Code**
+**ChatGPT and Codex:** add Revelica from [ChatGPT's plugin directory](https://chatgpt.com/plugins/plugin_asdk_app_6abed1e3bde08191bb5676d2a115c308), which Codex shares. [Setup guide](https://revelica.com/docs/integrations/chatgpt).
 
-```
-/plugin marketplace add revelica/skills
-/plugin install revelica@revelica
-```
-
-**ChatGPT and Codex:** add Revelica from [ChatGPT's plugin directory](https://chatgpt.com/plugins/plugin_asdk_app_6abed1e3bde08191bb5676d2a115c308), which Codex shares. In the Codex CLI:
-
-```
-codex plugin marketplace add revelica/skills
-codex plugin add revelica@revelica
-```
-
-**Cursor, Gemini CLI and other MCP clients** (or Claude without the directory): add the server as a custom connector:
+**Other MCP clients:** add a remote MCP server. [Setup guide](https://revelica.com/docs/mcp).
 
 | | |
 |---|---|
@@ -49,7 +37,7 @@ Then sign in to Revelica when your client asks, and run **setup-revelica** first
 | `test-product-risks` | Test risky assumptions with surveys, data, experiments or prototypes. |
 | `implement-spec` | Build a feature from its spec, and record what shipped. |
 
-Each skill here is a short entry point. The full workflow comes from the Revelica server when the agent loads it, so it stays in step with the tools it uses. In Claude Code each skill is also a slash command (`/revelica:setup-revelica`).
+Each skill here is a short entry point. The full workflow comes from the Revelica server when the agent loads it, so it stays in step with the tools it uses.
 
 ## What it connects to and sends
 
